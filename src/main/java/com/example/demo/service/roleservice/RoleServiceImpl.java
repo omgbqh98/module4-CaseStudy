@@ -3,6 +3,8 @@ package com.example.demo.service.roleservice;
 import com.example.demo.Repository.RoleRepository;
 import com.example.demo.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,6 +17,11 @@ public class RoleServiceImpl implements RoleService{
     @Override
     public Role getById(Long id) {
         return roleRepository.getById(id);
+    }
+
+    @Override
+    public Page<Role> findAll(Pageable pageable) {
+        return roleRepository.findAll(pageable);
     }
 
     @Override

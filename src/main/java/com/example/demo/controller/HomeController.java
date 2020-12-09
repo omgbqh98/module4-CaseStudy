@@ -41,16 +41,26 @@ public class HomeController {
         return modelAndView;
     }
 
+
     @PostMapping("/register")
     public ModelAndView register(@Validated @ModelAttribute("user") User user, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             ModelAndView modelAndView = new ModelAndView("register");
             return modelAndView;
         }
+        // *Tác giả: Thế Phèn
+        // Regíter check trùng Username và thông báo lỗi
+        for (User userFind : userService.findAll()) {
+            if (userFind.getName().equals(user.getName())) {
+                ModelAndView modelAndView = new ModelAndView("register");
+                modelAndView.addObject("message", "Tai khoan nay da duoc tao!");
+                return modelAndView;
+            }
+        }
         ModelAndView modelAndView = new ModelAndView("login");
         Optional<Role> role = roleService.findById((long) 2);
         user.setRole(role.get());
-        user.setStatus("true");
+        user.setStatus("active");
         user.setAvatar("https://img.thuthuatphanmem.vn/uploads/2018/09/19/avatar-facebook-chat-4_105604005.jpg");
         userService.save(user);
         modelAndView.addObject("user", user);

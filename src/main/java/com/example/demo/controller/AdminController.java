@@ -1,14 +1,19 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Role;
+import com.example.demo.model.User;
 import com.example.demo.service.roleservice.RoleService;
 import com.example.demo.service.userservice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -16,6 +21,11 @@ public class AdminController {
     UserService userService;
     @Autowired
     RoleService roleService;
+
+    @ModelAttribute("roles")
+    public Iterable<Role> roles(Pageable pageable) {
+        return roleService.findAll(pageable);
+    }
 
     @ModelAttribute("roles")
     public Iterable<Role> roles() {
@@ -26,17 +36,68 @@ public class AdminController {
     public String login() {
         return "login";
     }
+
     @GetMapping("/khongcoquyen")
-    public String accessDenied(){
+    public String accessDenied() {
         return "khongcoquyen";
     }
 
     @GetMapping("")
-    public ModelAndView adminPage() {
+    public ModelAndView listUser(@RequestParam("s") Optional<String> s, @PageableDefault(size = 5) Pageable pageable) {
+        Page<User> users;
+        if (s.isPresent()) {
+            users = userService.findAllByNameContaining(s.get(), pageable);
+        } else {
+            users = userService.findAll(pageable);
+        }
         ModelAndView modelAndView = new ModelAndView("admin");
-        Role role_user = roleService.getById((long) 2);
-        Role role_guest = roleService.getById((long) 3);
-        modelAndView.addObject("listUsers", userService.getAllByRoleOrRole(role_user, role_guest));
+        modelAndView.addObject("listUsers", users);
+//        Role role_user = roleService.getById((long) 2);
+//        Role role_guest = roleService.getById((long) 3);
+//        modelAndView.addObject("listUsers", userService.getAllByRoleOrRole(role_user, role_guest));
         return modelAndView;
     }
+
+
+
+//    @GetMapping("")
+//    public ModelAndView adminPage(){
+//        ModelAndView modelAndView = new ModelAndView("admin");
+//        Role role_user = roleService.getById((long) 2);
+//        Role role_guest = roleService.getById((long) 3);
+//        modelAndView.addObject("listUsers",userService.getAllByRoleOrRole(role_user,role_guest));
+//        return modelAndView;
+//    }
+
+
+
+
+
+//    @GetMapping("/blockUser/{id}")
+//    public ModelAndView block(@PathVariable Long id,Pageable pageable) {
+//        ModelAndView modelAndView = new ModelAndView("admin");
+//        Optional<User> currentUser = userService.findById(id);
+//        User user = currentUser.get();
+//        Role role_guest = roleService.getById((long) 3);
+////        Role role_user = roleService.getById((long) 2);
+//        user.setRole(role_guest);
+//        user.setStatus("disable");
+//        userService.save(user);
+//        modelAndView.addObject("listUsers", userService.findAll(pageable));
+//        return modelAndView;
+//    }
+
+//    @GetMapping("/blockUser/{id}")
+//    public ModelAndView blockUser(@PathVariable Long id){
+//        ModelAndView modelAndView = new ModelAndView("redirect:/admin");
+//        Optional<User> currentUser = userService.findById(id);
+//        User currentUser1 = currentUser.get();
+//        Role role_guest = roleService.getById((long) 3);
+//        Role role_user = roleService.getById((long) 2);
+//        currentUser1.setRole(role_guest);
+//        currentUser1.setStatus("false");
+//        userService.save(currentUser1);
+//        modelAndView.addObject("listUsers",userService.getAllByRoleOrRole(role_user,role_guest));
+//        return modelAndView;
+//    }
 }

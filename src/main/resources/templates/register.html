@@ -5,6 +5,12 @@
     <title>Title</title>
 </head>
 <body>
+
+<!--Thông báo Username trùng-->
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+
 <form action="/register" method="post" th:object="${user}">
     <input type="text" th:field="*{name}">username <br>
     <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></td>

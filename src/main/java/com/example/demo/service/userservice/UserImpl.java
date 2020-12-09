@@ -5,6 +5,8 @@ import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +24,25 @@ public class UserImpl implements UserService, UserDetailsService {
     private UserRepository userRepository;
 
 
+//    @Override
+//    public User finById(Long id) {
+//        return userRepository.findById(id);
+//    }
+
+    @Override
+    public Iterable<User> findAllByRole(Role role) {
+        return userRepository.findAllByRole(role);
+    }
+
+    @Override
+    public Page<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<User> findAllByNameContaining(String name, Pageable pageable) {
+        return userRepository.findAllByNameContaining(name,pageable);
+    }
 
     @Override
     public User getUserByUsername(String username) {
@@ -71,7 +92,7 @@ public class UserImpl implements UserService, UserDetailsService {
 
     @Override
     public Optional<User> findById(Long id) {
-        return Optional.empty();
+        return userRepository.findById(id);
     }
 
     @Override
