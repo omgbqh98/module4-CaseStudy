@@ -1,0 +1,101 @@
+package com.example.demo.service.userservice;
+
+import com.example.demo.Repository.UserRepository;
+import com.example.demo.model.Role;
+import com.example.demo.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UserImpl implements UserService, UserDetailsService {
+    @Autowired
+    private UserRepository userRepository;
+
+
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByName(username);
+    }
+
+    @Override
+    public Iterable<User> getAllByRoleId(Long id) {
+        return userRepository.getAllByRoleId(id);
+    }
+
+    @Override
+    public User getCurrentUser() {
+        User user;
+        String userName;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        user = this.getUserByUsername(userName);
+        return user;
+    }
+
+    @Override
+    public Iterable<User> getAllByRoleIsNotContaining(Long id) {
+        return userRepository.getAllByRoleIsNotContaining(id);
+    }
+
+    @Override
+    public Iterable<User> getAllByNameIsContaining(String name) {
+        return userRepository.getAllByNameIsContaining(name);
+    }
+
+
+
+    @Override
+    public Iterable<User> getAllByRoleOrRole(Role role1, Role role2) {
+        return userRepository.getAllByRoleOrRole(role1,role2);
+    }
+
+    @Override
+    public Iterable<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> findById(Long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void remove(Long id) {
+    userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = this.getUserByUsername(username);
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(user.getRole());
+
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                user.getName(),
+                user.getPass(),
+                authorities);
+        return userDetails;
+    }
+
+
+}

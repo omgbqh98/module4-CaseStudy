@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>User Management</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!--===============================================================================================-->
+</head>
+<body>
+<h1 style="align-content: center">Hello Admin</h1>
+</br>
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+
+        <th scope="col">id</th>
+        <th scope="col">Avatar</th>
+        <th scope="col">UserName</th>
+        <th scope="col">password</th>
+        <th scope="col">fullName</th>
+        <th scope="col">status</th>
+        <th scope="col">Block / Unblock User</th>
+    </tr>
+    </thead>
+    <th:block th:each="user: ${listUsers}">
+        <tbody>
+        <tr>
+            <td><img th:src="${user.getId()}" alt="" width="100px"></td>
+            <td> <a th:href="@{#}" th:text="${user.getName()}">></a> </td>
+            <td th:text="${user.getAvatar()}"></td>
+            <td th:text="${user.getPass()}"></td>
+            <td th:text="${user.getFullName()}"></td>
+            <td th:text="${user.getStatus()}"></td>
+            <td>
+                <a th:href="@{/admin/blockUser/__${user.getId()}__}">Block</a>
+                <a th:href="@{/admin/unBlockUser/__${user.getId()}__}">Unblock</a>
+            </td>
+        </tr>
+        </tbody>
+    </th:block>
+</table>
+<p><i class="ti-power-off"></i>
+    <a href="/logout" title="">Logout</a></p>
+<!--===============================================================================================-->
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script>
+    $('.js-pscroll').each(function(){
+        var ps = new PerfectScrollbar(this);
+
+        $(window).on('resize', function(){
+            ps.update();
+        })
+
+        $(this).on('ps-x-reach-start', function(){
+            $(this).parent().find('.table100-firstcol').removeClass('shadow-table100-firstcol');
+        });
+
+        $(this).on('ps-scroll-x', function(){
+            $(this).parent().find('.table100-firstcol').addClass('shadow-table100-firstcol');
+        });
+
+    });
+
+
+
+
+</script>
+<!--===============================================================================================-->
+<script src="js/main.js"></script>
+
+</body>
+</html>
