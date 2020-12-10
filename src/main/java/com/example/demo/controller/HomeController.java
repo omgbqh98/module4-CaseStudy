@@ -24,6 +24,11 @@ public class HomeController {
     @Autowired
     private RoleService roleService;
 
+    @GetMapping("/block")
+    public String block() {
+        return "error";
+    }
+
     @GetMapping("/")
     public String home() {
         return "redirect:/home/timeline";

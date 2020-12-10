@@ -49,11 +49,13 @@
         <tr>
             <td th:text="${user.getId()}" ></td>
             <td> <a th:href="@{#}" th:text="${user.getName()}">></a> </td>
-            <td th:text="${user.getAvatar()}"></td>
+<!--            <td th:text="${user.getAvatar()}"></td>-->
+            <td><img width="50px" th:src="${user.getAvatar()}" alt=""></td>
+
             <td th:text="${user.getPass()}"></td>
             <td th:text="${user.getFullName()}"></td>
             <td th:text="${user.getStatus()}"></td>
-            <td th:text="${user.role}"></td>
+            <td th:text="${user.role.role_name}"></td>
 
             <td>
                 <a th:href="@{/admin/blockUser/__${user.getId()}__}">Block</a>

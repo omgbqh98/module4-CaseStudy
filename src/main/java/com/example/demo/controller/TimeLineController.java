@@ -41,6 +41,11 @@ public class TimeLineController {
         return modelAndView;
     }
 
+    @GetMapping("haslogin")
+    public ModelAndView homehaslogin() {
+        ModelAndView modelAndView = new ModelAndView("homehaslogin");
+        return modelAndView;
+    }
 
 
     @ModelAttribute("post")

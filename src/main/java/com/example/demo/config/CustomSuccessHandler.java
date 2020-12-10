@@ -49,7 +49,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         if (isAdmin(roles)) {
             url = "/admin";
         } else if (isUser(roles)) {
-            url = "/home/timeline";
+            url = "/home/timeline/haslogin";
+        } else if (isBlock(roles)) {
+            url = "/block";
         } else {
             url = "/home/timeline";
         }
@@ -65,6 +67,13 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private boolean isAdmin(List<String> roles) {
         if (roles.contains("ROLE_ADMIN")) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isBlock(List<String> roles) {
+        if (roles.contains("ROLE_BLOCK")) {
             return true;
         }
         return false;
