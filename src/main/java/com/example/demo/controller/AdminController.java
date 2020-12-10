@@ -73,31 +73,31 @@ public class AdminController {
 
 
 
-//    @GetMapping("/blockUser/{id}")
-//    public ModelAndView block(@PathVariable Long id,Pageable pageable) {
-//        ModelAndView modelAndView = new ModelAndView("admin");
-//        Optional<User> currentUser = userService.findById(id);
-//        User user = currentUser.get();
-//        Role role_guest = roleService.getById((long) 3);
-////        Role role_user = roleService.getById((long) 2);
-//        user.setRole(role_guest);
-//        user.setStatus("disable");
-//        userService.save(user);
-//        modelAndView.addObject("listUsers", userService.findAll(pageable));
-//        return modelAndView;
-//    }
-
-//    @GetMapping("/blockUser/{id}")
-//    public ModelAndView blockUser(@PathVariable Long id){
-//        ModelAndView modelAndView = new ModelAndView("redirect:/admin");
-//        Optional<User> currentUser = userService.findById(id);
-//        User currentUser1 = currentUser.get();
-//        Role role_guest = roleService.getById((long) 3);
+    @GetMapping("/blockUser/{id}")
+    public ModelAndView block(@PathVariable Long id,Pageable pageable) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/admin");
+        Optional<User> currentUser = userService.findById(id);
+        User user = currentUser.get();
+        Role role_guest = roleService.getById((long) 3);
 //        Role role_user = roleService.getById((long) 2);
-//        currentUser1.setRole(role_guest);
-//        currentUser1.setStatus("false");
-//        userService.save(currentUser1);
-//        modelAndView.addObject("listUsers",userService.getAllByRoleOrRole(role_user,role_guest));
-//        return modelAndView;
-//    }
+        user.setRole(role_guest);
+        user.setStatus("disable");
+        userService.save(user);
+        modelAndView.addObject("listUsers", userService.findAll(pageable));
+        return modelAndView;
+    }
+
+    @GetMapping("/unBlockUser/{id}")
+    public ModelAndView unBlock(@PathVariable Long id, Pageable pageable) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/admin");
+        Optional<User> currentUser = userService.findById(id);
+        User user = currentUser.get();
+        Role role_user = roleService.getById((long) 2);
+        user.setRole(role_user);
+        user.setStatus("active");
+        userService.save(user);
+        modelAndView.addObject("listUsers", userService.findAll(pageable));
+        return modelAndView;
+    }
+
 }

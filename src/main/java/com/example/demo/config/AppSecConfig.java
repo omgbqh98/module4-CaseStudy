@@ -29,7 +29,7 @@ public class AppSecConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/","/test").permitAll()
+        http.authorizeRequests().antMatchers("/home/timeline").permitAll()
                 .and()
                 .authorizeRequests().antMatchers( "/users/**").hasRole("USER")
                 .and()
