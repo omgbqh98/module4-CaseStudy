@@ -12,7 +12,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -46,6 +48,43 @@ public class HomeController {
         return modelAndView;
     }
 
+    @PostMapping("/resetsuccess")
+    public String newPassword(@Validated @ModelAttribute("user") User user, @RequestParam String password, RedirectAttributes redirect, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            return "redirect:/newpassword";
+        }
+        user.setPass(password);
+        userService.save(user);
+        redirect.addFlashAttribute("message", "Cập nhật Mật khẩu thành công!");
+        return "redirect:/login";
+    }
+
+    @GetMapping("/resetpassword")
+    public ModelAndView resetPassword() {
+        ModelAndView modelAndView = new ModelAndView("verification");
+        modelAndView.addObject("user", new User());
+        return modelAndView;
+    }
+
+    @PostMapping("/newpassword")
+    public ModelAndView resetPassword(@ModelAttribute("user") User user) {
+        ModelAndView modelAndView = new ModelAndView("verification");
+        for (User userFind : userService.findAll()) {
+            if (user.getName().equals(userFind.getName())) {
+                if (user.getQ1().equals(userFind.getQ1())) {
+                    if (user.getQ2().equals(userFind.getQ2())) {
+                        User userEdit = userService.getUserByUsername(user.getName());
+                        ModelAndView modelAndViewNew = new ModelAndView("newpassword");
+                        modelAndViewNew.addObject("message", "Input your new password!");
+                        modelAndViewNew.addObject("user", userEdit);
+                        return modelAndViewNew;
+                    }
+                }
+            }
+        }
+        modelAndView.addObject("message", "Please try again!");
+        return modelAndView;
+    }
 
     @PostMapping("/register")
     public ModelAndView register(@Validated @ModelAttribute("user") User user, BindingResult bindingResult) {
@@ -71,6 +110,5 @@ public class HomeController {
         modelAndView.addObject("user", user);
         return modelAndView;
     }
-
 
 }

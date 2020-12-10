@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/home/timeline")
@@ -44,6 +46,14 @@ public class TimeLineController {
     @GetMapping("haslogin")
     public ModelAndView homehaslogin() {
         ModelAndView modelAndView = new ModelAndView("homehaslogin");
+        return modelAndView;
+    }
+
+    @GetMapping("/viewpost/{id}")
+    public ModelAndView viewPost(@PathVariable Long id) {
+        Optional<Post> post = postService.findById(id);
+        ModelAndView modelAndView = new ModelAndView("viewpost");
+        modelAndView.addObject("post", post);
         return modelAndView;
     }
 
