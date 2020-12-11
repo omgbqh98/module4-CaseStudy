@@ -5,28 +5,6 @@
     <title>myhome</title>
 </head>
 <body>
-<form method="post" action="/user/createpost" th:object="${post}" enctype="multipart/form-data">
-    <textarea th:field="*{title}" rows="2" placeholder="What do you feel today?"></textarea>
-    <div class="attachments">
-        <ul>
-
-            <li>
-                <i class="fa fa-image"></i>
-                <label class="fileContainer">
-                    <input type="file" name="postImageFile">
-                </label>
-            </li>
-            <li>
-                <select th:field="*{category}">
-                    <option th:each="p : ${categorys}" th:value="${p.id_category}" th:text="${p.name}"></option>
-                </select>
-            </li>
-            <li>
-                <button type="submit">Post</button>
-            </li>
-        </ul>
-    </div>
-</form>
 
 
 
@@ -55,29 +33,27 @@
 
 <table class="table" border="1px">
     <thead class="thead-dark">
-    <tr>
 
+    <tr>
         <th scope="col">title</th>
         <th scope="col">fullName</th>
         <th scope="col">Avatar</th>
         <th scope="col">Date</th>
         <th scope="col">Post</th>
 
-
-
     </tr>
     </thead>
-    <th:block th:each="posts: ${myListPost}">
+    <th:block th:each="posts: ${posts}">
         <tbody>
         <tr>
             <!--            <td> <a th:href="@{/home/timeline/viewpost/__${posts.getPost_id()__}" th:text="${posts.getTitle()}">></a> </td>-->
             <td><a th:href="@{/home/timeline/viewpost/__${posts.getPost_id()}__}"  th:text="${posts.getTitle()}" ></a></td>
 
-<!--            <td th:text="${posts.getTitle()}" ></td>-->
+            <!--            <td th:text="${posts.getTitle()}" ></td>-->
 
             <td><img width="50px" th:src="${posts.getUser().getAvatar()}" alt=""></td>
             <td>
-<!--                <ins><a th:href="@{/home/timeline/search/__${posts.getUser().getId()}__}" th:text="${posts.getUser().name}"></a></ins>-->
+                <!--                <ins><a th:href="@{/home/timeline/search/__${posts.getUser().getId()}__}" th:text="${posts.getUser().name}"></a></ins>-->
                 <span th:text="${posts.getDate()}"></span>
             </td>
             <td>
@@ -87,8 +63,6 @@
                 <p th:text="${posts.category.name}"></p>
             </td>
             <td>
-            <a th:href="@{/user/delete-post/__${posts.post_id}__}">delete</a>   </td>
-            <td><a th:href="@{user/edit-post/__${posts.post_id}__ }">edit</a></td>
         </tr>
         </tbody>
     </th:block>

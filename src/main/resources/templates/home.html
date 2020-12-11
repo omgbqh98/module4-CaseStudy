@@ -26,7 +26,7 @@
             <td th:text="${posts.getTitle()}" ></td>
             <td><img width="50px" th:src="${posts.getUser().getAvatar()}" alt=""></td>
             <td>
-                <ins><a th:href="@{/home/timeline/search/__${posts.getUser().getId()}__}" th:text="${posts.getUser().name}"></a></ins>
+                <ins><a th:href="@{/home/timeline/viewpage/__${posts.getUser().getId()}__}" th:text="${posts.getUser().name}"></a></ins>
                 <span th:text="${posts.getDate()}"></span>
             </td>
             <td>

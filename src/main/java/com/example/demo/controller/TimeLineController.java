@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,20 +44,35 @@ public class TimeLineController {
         return modelAndView;
     }
 
+    @GetMapping("/viewpage/{id}")
+    public ModelAndView viewpage(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("viewpage");
+        User user = userService.findById(id).get();
+        modelAndView.addObject("user",user);
+        Iterable<Post> posts = postService.getAllUserOrderByDateDesc(user);
+        modelAndView.addObject("posts", posts);
+        modelAndView.addObject("idUser", id);
+        return modelAndView;
+
+    }
+
+    //Tac gia: The Phen
+    @GetMapping("/viewpost/{id}")
+    public ModelAndView viewPost(@PathVariable Long id) {
+        Optional<Post> post = postService.findById(id);
+        Iterable<Comment> comments = commentService.getAllByPost(post.get());
+        Iterator<Comment> commentIterator = comments.iterator();
+        ModelAndView modelAndView = new ModelAndView("viewpost");
+        modelAndView.addObject("post", post.get());
+        modelAndView.addObject("comments", commentIterator);
+        return modelAndView;
+    }
+
     @GetMapping("haslogin")
     public ModelAndView homehaslogin() {
         ModelAndView modelAndView = new ModelAndView("homehaslogin");
         return modelAndView;
     }
-
-    @GetMapping("/viewpost/{id}")
-    public ModelAndView viewPost(@PathVariable Long id) {
-        Optional<Post> post = postService.findById(id);
-        ModelAndView modelAndView = new ModelAndView("viewpost");
-        modelAndView.addObject("post", post);
-        return modelAndView;
-    }
-
 
     @ModelAttribute("post")
     public Post newPost() {

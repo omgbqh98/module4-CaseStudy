@@ -8,6 +8,7 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_category;
+    private String icon;
     private String name;
 
     public Category(Long id_category, String name) {
@@ -16,6 +17,14 @@ public class Category {
     }
 
     public Category() {
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public Long getId_category() {

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -36,10 +37,18 @@ public class UserController {
     String mApiSecret = "QrSQljoMltB5OgDmxQM81UBSB-0";
 
     @GetMapping("/delete-post/{id}")
-    private ModelAndView deletePost(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("deletepost");
+    public ModelAndView deletePost(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("post/deletepost");
        Optional<Post> post= postService.findById(id);
         modelAndView.addObject("posts", post.get());
+        return modelAndView;
+    }
+
+    @PostMapping("/delete-post")
+    public ModelAndView deletePost(@ModelAttribute("post") Post post, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("success", "delete sucess");
+        ModelAndView modelAndView = new ModelAndView("redirect:/user");
+        postService.remove(post.getPost_id());
         return modelAndView;
     }
 
