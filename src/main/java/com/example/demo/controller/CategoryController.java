@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.jws.WebParam;
 import java.util.Optional;
@@ -48,17 +49,11 @@ public class CategoryController {
         return modelAndView;
     }
     @PostMapping("/edit/{id}")
-    public ModelAndView showEdit(Category category){
+    public ModelAndView showEdit(Category category, RedirectAttributes redirectAttributes ){
+        redirectAttributes.addFlashAttribute("success", "edit success");
         categoryService.save(category);
         ModelAndView modelAndView = new ModelAndView("redirect:/categories");
         modelAndView.addObject("category", category);
-        return modelAndView;
-    }
-    @GetMapping("/delete/{id}")
-    public ModelAndView deleteCategory(@PathVariable Long id){
-        Optional<Category> category = categoryService.findById(id);
-        categoryService.remove(id);
-        ModelAndView modelAndView = new ModelAndView("redirect:/categories");
         return modelAndView;
     }
 

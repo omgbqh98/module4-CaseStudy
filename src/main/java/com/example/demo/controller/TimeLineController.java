@@ -39,8 +39,17 @@ public class TimeLineController {
     @GetMapping()
     public ModelAndView home(@ModelAttribute String username) {
         ModelAndView modelAndView = new ModelAndView("home");
-//        Iterable<Post> postList = postService.findAll();
-//        modelAndView.addObject("listPost", postList);
+        return modelAndView;
+    }
+
+    //Tac gia: The Phen`
+    @GetMapping("/category/{id}")
+    public ModelAndView listCategory(@PathVariable Long id) {
+        Optional<Category> category = categoryService.findById(id);
+        Iterable<Post> postsByCategory = postService.findAllByCategory(category.get());
+        ModelAndView modelAndView = new ModelAndView("category");
+        modelAndView.addObject("category", category.get());
+        modelAndView.addObject("posts", postsByCategory);
         return modelAndView;
     }
 
@@ -80,7 +89,7 @@ public class TimeLineController {
         return post;
     }
 
-    @ModelAttribute("categorys")
+    @ModelAttribute("categories")
     public Iterable<Category> categories() {
         return categoryService.findAll();
     }

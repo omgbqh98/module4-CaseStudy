@@ -5,9 +5,6 @@
     <title>myhome</title>
 </head>
 <body>
-
-
-
 <table>
     <tr>
         <td>avatar</td>
@@ -18,15 +15,6 @@
         <td><img width="50px" th:src="${user.getAvatar()}" alt="" ></td>
         <td th:text="${user.getFullName()}"></td>
 
-        <form class="edit-phto" th:action="@{/user/avatar}" method="post" enctype="multipart/form-data">
-            <i class="fa fa-camera-retro"></i>
-            <label class="fileContainer">
-                Edit Display Photo
-                <input type="file" name="avatar"/>
-            </label>
-            <!--									<input type="submit" value="submit" class="btn&#45;&#45;blue">-->
-            <button type="submit" class="btn btn-success">Submit</button>
-        </form>
     </tr>
 </table>
 <h4 style="color: red" th:text="${success}"></h4>

@@ -40,7 +40,17 @@
             <td th:text="${comment.getContent()}"></td>
         </tr>
     </table>
+
+
+
+
     <br>
 </th:block>
+
+<form method="post" action="/user/createComment">
+    <input hidden name="idPost" th:value="${post.getPost_id()}"/>
+    <textarea name="content" placeholder="Post your comment"></textarea>
+    <button type="submit">comment</button>
+</form>
 </body>
 </html>

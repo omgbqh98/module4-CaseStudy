@@ -3,9 +3,11 @@ package com.example.demo.controller;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.demo.model.Category;
+import com.example.demo.model.Comment;
 import com.example.demo.model.Post;
 import com.example.demo.model.User;
 import com.example.demo.service.categoryservice.CategoryService;
+import com.example.demo.service.commentservice.CommentService;
 import com.example.demo.service.postservice.PostService;
 import com.example.demo.service.userservice.UserService;
 import org.cloudinary.json.JSONObject;
@@ -19,12 +21,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.File;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
+    @Autowired
+    CommentService commentService;
     @Autowired
     PostService postService;
     @Autowired
@@ -35,6 +40,27 @@ public class UserController {
     String mCloudName = "dnulbp9wi";
     String mApiKey = "388747591265657";
     String mApiSecret = "QrSQljoMltB5OgDmxQM81UBSB-0";
+
+    @PostMapping("/createComment")
+    public ModelAndView comment(@ModelAttribute Long id, @ModelAttribute String content) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/home/timeline/viewpost/" + id);
+        Post post = postService.findById(id).get();
+        Comment comment = new Comment();
+        comment.setContent(content);
+        comment.setUser(userService.getCurrentUser());
+        comment.setPost(post);
+        comment.setDate(LocalDateTime.now());
+        commentService.save(comment);
+        post.setComments((List<Comment>) commentService.getAllByPost(post));
+        postService.save(post);
+        return modelAndView;
+    }
+
+    @ModelAttribute("comment")
+    public Comment newComment(){
+        Comment comment = new Comment();
+        return comment;
+    }
 
     @GetMapping("/delete-post/{id}")
     public ModelAndView deletePost(@PathVariable Long id) {

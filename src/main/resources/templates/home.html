@@ -6,6 +6,18 @@
 </head>
 <body>
 
+<a href="/login">login</a>
+
+<!--Tac gia: The Phen`-->
+<h4>== Category ==</h4>
+<ul>
+    <th:block th:each="category : ${categories}">
+        <li>
+            <a th:href="@{/home/timeline/category/__${category.getId_category()}__}"><span
+                    th:text="${category.getName()}"></span></a>
+        </li>
+    </th:block>
+</ul>
 
 <table class="table" border="1px">
     <thead class="thead-dark">
@@ -39,8 +51,5 @@
         </tbody>
     </th:block>
 </table>
-
-
-<a href="/login">login</a>
 </body>
 </html>
