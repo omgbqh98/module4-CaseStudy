@@ -30,6 +30,17 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
+    public Post getByPost_id(Long id) {
+        return null;
+    }
+
+
+//    @Override
+//    public Post findByPost_Id(Long id) {
+//        return postRepository.findByPost_id(id);
+//    }
+
+    @Override
     public Iterable<Post> findAll() {
         return postRepository.findAll();
     }
@@ -38,6 +49,13 @@ public class PostServiceImpl implements PostService{
     public Optional<Post> findById(Long id) {
         return postRepository.findById(id);
     }
+
+
+
+//    @Override
+//    public Optional<Post> findById(Long id) {
+//        return postRepository.findById(id);
+//    }
 
     @Override
     public Post save(Post post) {

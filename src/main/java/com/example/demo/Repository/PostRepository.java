@@ -13,4 +13,6 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
 
     Iterable<Post> findAllByCategory(Category category);
 
+    //    Post findByPost_id(Long id);
+//    Post findAllByPost_id(Long id);
 }

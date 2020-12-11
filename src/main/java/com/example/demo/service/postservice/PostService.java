@@ -12,4 +12,8 @@ public interface PostService extends GeneralService<Post> {
 
     Iterable<Post> getAllUserOrderByDateDesc(User user);
 
+    Post getByPost_id(Long id);
+
+//    Post findByPost_Id(Long id);
+
 }

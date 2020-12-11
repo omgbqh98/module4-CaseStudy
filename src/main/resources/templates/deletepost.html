@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+sdfdsf
+<form action="/user/delete-post" method="post" th:object="${posts}">
+
+     <p th:text="${posts.title}" ></p>
+
+<!--    <img width="50px" th:src="${posts.getUser().getAvatar()}" alt="">-->
+
+<!--        &lt;!&ndash;                <ins><a th:href="@{/home/timeline/search/__${posts.getUser().getId()}__}" th:text="${posts.getUser().name}"></a></ins>&ndash;&gt;-->
+<!--        <span th:text="${posts.getDate()}"></span>-->
+
+
+<!--        <img style="width: 50%" th:src="${posts.getPostImage()}" alt="">-->
+
+
+<!--        <p th:text="${posts.category.name}"></p>-->
+
+
+<!--        <a th:href="@{/users/delete-post/__${posts.getPost_id()}__}"><i class='fas fa-trash-alt'></i></a>-->
+
+    <input type="submit" value="delete" >
+
+
+</form>
+</body>
+</html>

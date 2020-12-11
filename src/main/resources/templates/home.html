@@ -10,15 +10,11 @@
 <table class="table" border="1px">
     <thead class="thead-dark">
     <tr>
-
         <th scope="col">title</th>
         <th scope="col">fullName</th>
         <th scope="col">Avatar</th>
         <th scope="col">Date</th>
         <th scope="col">Post</th>
-
-
-
     </tr>
     </thead>
     <th:block th:each="posts: ${listPost}">
@@ -39,17 +35,6 @@
             <td>
                 <p th:text="${posts.category.name}"></p>
             </td>
-
-
-
-            <!--            <td> <a th:href="@{#}" th:text="${user.getName()}">></a> </td>-->
-<!--            <td th:text="${user.getAvatar()}"></td>-->
-<!--            <td th:text="${user.getPass()}"></td>-->
-<!--            <td th:text="${user.getFullName()}"></td>-->
-<!--            <td th:text="${user.getStatus()}"></td>-->
-<!--            <td th:text="${user.role}"></td>-->
-
-
         </tr>
         </tbody>
     </th:block>

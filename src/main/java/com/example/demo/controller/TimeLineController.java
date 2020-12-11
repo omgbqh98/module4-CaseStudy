@@ -63,6 +63,7 @@ public class TimeLineController {
         Post post = new Post();
         return post;
     }
+
     @ModelAttribute("categorys")
     public Iterable<Category> categories() {
         return categoryService.findAll();
