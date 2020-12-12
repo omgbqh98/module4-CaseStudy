@@ -45,7 +45,7 @@ public class UserImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getUserByUsername(String username) {
+    public User findByName(String username) {
         return userRepository.findByName(username);
     }
 
@@ -64,7 +64,7 @@ public class UserImpl implements UserService, UserDetailsService {
         } else {
             userName = principal.toString();
         }
-        user = this.getUserByUsername(userName);
+        user = this.findByName(userName);
         return user;
     }
 
@@ -107,7 +107,7 @@ public class UserImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = this.getUserByUsername(username);
+        User user = this.findByName(username);
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(user.getRole());
 

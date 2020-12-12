@@ -40,17 +40,18 @@
             <td th:text="${comment.getContent()}"></td>
         </tr>
     </table>
+</th:block>
 
 
-
-
+    <form th:action="@{/user/create-comment/__${post.post_id}__}" method="post" th:object="${comment}" >
+        <input type="text" class="form-control" id="exampleInputPassword1"
+               placeholder="comment" th:field="*{content}">
+        <input type="submit" value="comment">
+    </form>
     <br>
 </th:block>
 
-<form method="post" action="/user/createComment">
-    <input hidden name="idPost" th:value="${post.getPost_id()}"/>
-    <textarea name="content" placeholder="Post your comment"></textarea>
-    <button type="submit">comment</button>
-</form>
+
+
 </body>
 </html>

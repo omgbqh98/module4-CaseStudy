@@ -73,7 +73,7 @@ public class HomeController {
             if (user.getName().equals(userFind.getName())) {
                 if (user.getQ1().equals(userFind.getQ1())) {
                     if (user.getQ2().equals(userFind.getQ2())) {
-                        User userEdit = userService.getUserByUsername(user.getName());
+                        User userEdit = userService.findByName(user.getName());
                         ModelAndView modelAndViewNew = new ModelAndView("newpassword");
                         modelAndViewNew.addObject("message", "Input your new password!");
                         modelAndViewNew.addObject("user", userEdit);

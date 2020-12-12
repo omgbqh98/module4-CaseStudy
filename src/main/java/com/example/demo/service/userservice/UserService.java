@@ -15,7 +15,7 @@ public interface UserService extends GeneralService<User> {
 
     Page<User> findAllByNameContaining(String name, Pageable pageable);
 
-    User getUserByUsername(String username);
+    User findByName(String username);
 
     Iterable<User> getAllByRoleId(Long id);
 

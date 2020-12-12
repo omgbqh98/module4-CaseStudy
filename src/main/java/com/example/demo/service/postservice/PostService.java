@@ -16,6 +16,8 @@ public interface PostService extends GeneralService<Post> {
 
     void delete(Post post);
 
+    Long count();
+
 //    Post findByPost_Id(Long id);
 
 }

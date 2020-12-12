@@ -78,6 +78,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         }
         return false;
     }
+   
 
 //    private boolean isDba(List<String> roles) {
 //        if (roles.contains("ROLE_DBA")) {

@@ -41,20 +41,18 @@ public class UserController {
     String mApiKey = "388747591265657";
     String mApiSecret = "QrSQljoMltB5OgDmxQM81UBSB-0";
 
-    @PostMapping("/createComment")
-    public ModelAndView comment(@ModelAttribute Long id, @ModelAttribute String content) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/home/timeline/viewpost/" + id);
+    @PostMapping("/create-comment/{id}")
+    public String createComment(@ModelAttribute("comment") Comment comment, @PathVariable Long id) {
         Post post = postService.findById(id).get();
-        Comment comment = new Comment();
-        comment.setContent(content);
-        comment.setUser(userService.getCurrentUser());
+        User user = userService.findByName(currenUser().getName());
         comment.setPost(post);
-        comment.setDate(LocalDateTime.now());
+        comment.setUser(user);
         commentService.save(comment);
-        post.setComments((List<Comment>) commentService.getAllByPost(post));
-        postService.save(post);
-        return modelAndView;
+        return "redirect:/home/timeline/viewpost/"+id;
     }
+
+
+
 
     @ModelAttribute("comment")
     public Comment newComment(){
@@ -83,6 +81,8 @@ public class UserController {
     public Iterable<Category> categories() {
         return categoryService.findAll();
     }
+
+
     @GetMapping()
     public ModelAndView home(@ModelAttribute String username){
         ModelAndView modelAndView = new ModelAndView("myhome");

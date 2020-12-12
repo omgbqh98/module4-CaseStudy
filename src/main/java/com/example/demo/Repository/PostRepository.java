@@ -3,6 +3,8 @@ package com.example.demo.Repository;
 import com.example.demo.model.Category;
 import com.example.demo.model.Post;
 import com.example.demo.model.User;
+import org.hibernate.sql.Select;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
@@ -13,6 +15,7 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
 
     Iterable<Post> findAllByCategory(Category category);
 
-    //    Post findByPost_id(Long id);
-//    Post findAllByPost_id(Long id);
+
+    Long countPostBy();
+
 }

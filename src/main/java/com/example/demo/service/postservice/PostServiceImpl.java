@@ -70,4 +70,9 @@ public class PostServiceImpl implements PostService{
     public void delete(Post post) {
         postRepository.delete(post);
     }
+
+    @Override
+    public Long count() {
+        return null;
+    }
 }
