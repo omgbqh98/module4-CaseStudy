@@ -36,6 +36,11 @@ public class TimeLineController {
     @Autowired
     CommentService commentService;
 
+    @ModelAttribute("countPost")
+    private Long countPost(){
+        return postService.countPost();
+    }
+
     @GetMapping()
     public ModelAndView home(@ModelAttribute String username) {
         ModelAndView modelAndView = new ModelAndView("home");

@@ -72,7 +72,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public Long count() {
-        return null;
+    public Long countPost() {
+        return postRepository.count();
     }
 }

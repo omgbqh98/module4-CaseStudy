@@ -45,6 +45,7 @@ public class UserController {
     public String createComment(@ModelAttribute("comment") Comment comment, @PathVariable Long id) {
         Post post = postService.findById(id).get();
         User user = userService.findByName(currenUser().getName());
+        comment.setDate(LocalDateTime.now());
         comment.setPost(post);
         comment.setUser(user);
         commentService.save(comment);
