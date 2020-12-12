@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table th:object="${post}">
+    <tr>
+        <td th:text="${post.getPost_id()}">
+        </td>
+    </tr>
+    <tr >
+        <td th:text="${post.getTitle()}">
+
+        </td>
+
+    </tr>
+
+
+</table>
+
+<form th:action="@{/user/delete-comment/__${post.post_id}__}" method="post" th:object="${comment}">
+    <input type="hidden" th:field="*{comment_id}">
+    <p th:text="*{content}"></p>
+    <input type="submit" value="delete">
+</form>
+</body>
+</html>

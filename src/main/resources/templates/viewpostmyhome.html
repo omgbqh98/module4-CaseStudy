@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>View Post</title>
+</head>
+<body>
+<h1>Post</h1>
+<table th:object="${post}" border="1px" cellspacing="5">
+    <tr>
+        <td>Title</td>
+        <td>Image</td>
+        <td>Date</td>
+        <td>User</td>
+        <td>Comment</td>
+        <td>Category</td>
+    </tr>
+    <tr>
+        <td th:text="*{title}"></td>
+        <td><img th:src="*{postImage}" alt="This is Image from Post"></td>
+        <td th:text="*{date}"></td>
+        <td th:text="*{user.fullName}"></td>
+        <td></td>
+        <td th:text="*{category.name}"></td>
+    </tr>
+</table>
+<hr>
+<hr>
+<h1>Post's Comments</h1>
+<th:block th:each="comment : ${comments}">
+    <br>
+    <table border="1" cellspacing="5">
+        <tr>
+            <td th:text="${comment.getUser().getFullName()}"></td>
+        </tr>
+        <tr>
+            <td th:text="${comment.getDate()}"></td>
+        </tr>
+        <tr>
+            <td th:text="${comment.getContent()}"></td>
+        </tr>
+        <tr>
+            <td>
+                <a th:href="@{/user/delete-comment/__${comment.getComment_id()}__/__${post.getPost_id()}__}"> delete</a>
+            </td>
+        </tr>
+    </table>
+
+
+
+</th:block>
+
+
+<form th:action="@{/user/create-comment/__${post.post_id}__}" method="post" th:object="${comment}" >
+    <input type="text" class="form-control" id="exampleInputPassword1"
+           placeholder="comment" th:field="*{content}">
+    <input type="submit" value="comment">
+</form>
+<br>
+</th:block>
+
+
+
+</body>
+</html>

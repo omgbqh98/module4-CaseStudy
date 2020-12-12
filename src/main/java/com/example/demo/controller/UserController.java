@@ -41,22 +41,38 @@ public class UserController {
     String mApiKey = "388747591265657";
     String mApiSecret = "QrSQljoMltB5OgDmxQM81UBSB-0";
 
+    @GetMapping("/delete-comment/{commentId}/{postId}")
+    public ModelAndView deleteComment(@PathVariable Long commentId, @PathVariable Long postId) {
+        Optional<Comment> comment = commentService.findById(commentId);
+        Optional<Post> post = postService.findById(postId);
+        ModelAndView modelAndView = new ModelAndView("comment/delete");
+        modelAndView.addObject("post", post.get());
+        modelAndView.addObject("comment", comment.get());
+        return modelAndView;
+    }
+
+    @PostMapping("/delete-comment/{postId}")
+    public ModelAndView deleteComment(@PathVariable Long postId, Comment comment) {
+        Optional<Post> post = postService.findById(postId);
+        commentService.remove(comment.getComment_id());
+        ModelAndView modelAndView = new ModelAndView("redirect:/home/timeline/viewpost-myhome/" + post.get().getPost_id());
+        return modelAndView;
+    }
+
     @PostMapping("/create-comment/{id}")
     public String createComment(@ModelAttribute("comment") Comment comment, @PathVariable Long id) {
         Post post = postService.findById(id).get();
-        User user = userService.findByName(currenUser().getName());
+        User user = userService.findByName(getUserCurrent().getName());
         comment.setDate(LocalDateTime.now());
         comment.setPost(post);
         comment.setUser(user);
         commentService.save(comment);
-        return "redirect:/home/timeline/viewpost/"+id;
+        return "redirect:/home/timeline/viewpost/" + id;
     }
 
 
-
-
     @ModelAttribute("comment")
-    public Comment newComment(){
+    public Comment newComment() {
         Comment comment = new Comment();
         return comment;
     }
@@ -64,10 +80,11 @@ public class UserController {
     @GetMapping("/delete-post/{id}")
     public ModelAndView deletePost(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("post/deletepost");
-       Optional<Post> post= postService.findById(id);
+        Optional<Post> post = postService.findById(id);
         modelAndView.addObject("posts", post.get());
         return modelAndView;
     }
+
 
     @PostMapping("/delete-post")
     public ModelAndView deletePost(@ModelAttribute("post") Post post, RedirectAttributes redirectAttributes) {
@@ -78,20 +95,21 @@ public class UserController {
     }
 
 
-    @ModelAttribute("categorys")
+    @ModelAttribute("categories")
     public Iterable<Category> categories() {
         return categoryService.findAll();
     }
 
 
     @GetMapping()
-    public ModelAndView home(@ModelAttribute String username){
+    public ModelAndView home(@ModelAttribute String username) {
         ModelAndView modelAndView = new ModelAndView("myhome");
         return modelAndView;
     }
 
+
     @PostMapping("/createpost")
-    public ModelAndView homePost(@ModelAttribute("post") Post post, @ModelAttribute("postImageFile") MultipartFile postImageFile){
+    public ModelAndView homePost(@ModelAttribute("post") Post post, @ModelAttribute("postImageFile") MultipartFile postImageFile) {
         ModelAndView modelAndView = new ModelAndView("redirect:/user");
         post.setUser(userService.getCurrentUser());
         post.setDate(LocalDateTime.now());
@@ -109,10 +127,9 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        modelAndView.addObject("post",post1);
+        modelAndView.addObject("post", post1);
         return modelAndView;
     }
-
 
 
     @PostMapping("/avatar")
@@ -132,7 +149,7 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        modelAndView.addObject("user",user);
+        modelAndView.addObject("user", user);
         return modelAndView;
     }
 
@@ -150,27 +167,30 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
-    @ModelAttribute("user")
-    public User currenUser(){
-        return userService.getCurrentUser();
+
+    @ModelAttribute("userCurrent")
+    public User getUserCurrent() {
+        User userCurrent = userService.getCurrentUser();
+        return userCurrent;
     }
 
     @ModelAttribute("listPost")
-    public Iterable<Post> listPost(){
-        Iterable<Post> listPost= postService.getAllByOrderByDateDesc();
+    public Iterable<Post> listPost() {
+        Iterable<Post> listPost = postService.getAllByOrderByDateDesc();
         return listPost;
     }
 
     @ModelAttribute("myListPost")
-    public Iterable<Post> MylistPost(){
+    public Iterable<Post> MylistPost() {
         Iterable<Post> listPost = postService.getAllUserOrderByDateDesc(userService.getCurrentUser());
         return listPost;
     }
+
     @ModelAttribute("post")
-    public Post newPost(){
+    public Post newPost() {
         Post post = new Post();
         return post;
     }

@@ -418,16 +418,16 @@ Hero
                                 </div>
                                 <div class="media-body">
                                     <a th:href="@{/home/timeline/viewpost/__${posts.getPost_id()}__}"> <p class="m-0"
-                                                                                                          style="color: #222222; font-family: 'Times New Roman'; font-size: larger"
-                                                                                                          th:text="${posts.getTitle()}"></p></a>
+                                       style="color: #222222; font-family: 'Times New Roman'; font-size: larger"
+                                       th:text="${posts.getTitle()}"></p></a>
                                     <small><i class="icon ion-md-time"></i><span th:text="${posts.getDate()}"> </span></small>
                                 </div>
                             </div><!--/ media -->
                         </div><!--/ cardbox-heading -->
                         <div class="cardbox-item">
                             <a th:href="@{/home/timeline/viewpost/__${posts.getPost_id()}__}"><img width="100%" height="auto" class="img-fluid"
-                                                                                                   th:src="${posts.getPostImage()}"
-                                                                                                   alt="Image"></a>
+                                 th:src="${posts.getPostImage()}"
+                                 alt="Image"></a>
                         </div><!--/ cardbox-item -->
                         <div class="cardbox-base">
                             <ul class="float-right">

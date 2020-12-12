@@ -39,7 +39,7 @@ public class AdminController {
 
     @GetMapping("/khongcoquyen")
     public String accessDenied() {
-        return "khongcoquyen";
+        return "redirect:/login";
     }
 
     @GetMapping("")

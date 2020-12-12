@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>myhome</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>avatar</td>
+        <td>name</td>
+        <td>upFileAvatar</td>
+    </tr>
+    <tr>
+        <td><img width="50px" th:src="${user.getAvatar()}" alt="" ></td>
+        <td th:text="${user.getFullName()}"></td>
+
+    </tr>
+</table>
+<h4 style="color: red" th:text="${success}"></h4>
+
+<table class="table" border="1px">
+    <thead class="thead-dark">
+
+    <tr>
+        <th scope="col">title</th>
+        <th scope="col">fullName</th>
+        <th scope="col">Avatar</th>
+        <th scope="col">Date</th>
+        <th scope="col">Post</th>
+
+    </tr>
+    </thead>
+    <th:block th:each="posts: ${posts}">
+        <tbody>
+        <tr>
+            <!--            <td> <a th:href="@{/home/timeline/viewpost/__${posts.getPost_id()__}" th:text="${posts.getTitle()}">></a> </td>-->
+            <td><a th:href="@{/home/timeline/viewpost/__${posts.getPost_id()}__}"  th:text="${posts.getTitle()}" ></a></td>
+
+            <!--            <td th:text="${posts.getTitle()}" ></td>-->
+
+            <td><img width="50px" th:src="${posts.getUser().getAvatar()}" alt=""></td>
+            <td>
+                <!--                <ins><a th:href="@{/home/timeline/search/__${posts.getUser().getId()}__}" th:text="${posts.getUser().name}"></a></ins>-->
+                <span th:text="${posts.getDate()}"></span>
+            </td>
+            <td>
+                <img style="width: 50%" th:src="${posts.getPostImage()}" alt="">
+            </td>
+            <td>
+                <p th:text="${posts.category.name}"></p>
+            </td>
+            <td>
+        </tr>
+        </tbody>
+    </th:block>
+</table>
+</body>
+</html>

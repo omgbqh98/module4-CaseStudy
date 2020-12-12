@@ -70,6 +70,17 @@ public class TimeLineController {
 
     }
 
+    @GetMapping("viewpost-myhome/{id}")
+    public ModelAndView viewpostmyhome(@PathVariable Long id) {
+        Optional<Post> post = postService.findById(id);
+        Iterable<Comment> comments = commentService.getAllByPost(post.get());
+        Iterator<Comment> commentIterator = comments.iterator();
+        ModelAndView modelAndView = new ModelAndView("viewpostmyhome");
+        modelAndView.addObject("post", post.get());
+        modelAndView.addObject("comments", commentIterator);
+        return modelAndView;
+    }
+
     //Tac gia: The Phen
     @GetMapping("/viewpost/{id}")
     public ModelAndView viewPost(@PathVariable Long id) {
@@ -123,7 +134,7 @@ public class TimeLineController {
 
     @GetMapping("/khongcoquyen")
     public String accessDenied(){
-        return "error";
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
@@ -131,8 +142,5 @@ public class TimeLineController {
         return "login";
     }
 
-    @GetMapping("/trangchu")
-    public String trangchu(){
-        return "timeline";
-    }
+
 }
