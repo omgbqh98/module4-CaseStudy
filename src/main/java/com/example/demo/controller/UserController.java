@@ -41,6 +41,19 @@ public class UserController {
     String mApiKey = "388747591265657";
     String mApiSecret = "QrSQljoMltB5OgDmxQM81UBSB-0";
 
+    @GetMapping("update-fullName")
+    public ModelAndView updateFullName() {
+        ModelAndView modelAndView = new ModelAndView("user/editFullName");
+        return modelAndView;
+    }
+
+    @PostMapping ("update-fullName")
+            public ModelAndView updateFullName(User user) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/user/myhome");
+        userService.save(user);
+        return modelAndView;
+    }
+
     @GetMapping("/delete-comment/{commentId}/{postId}")
     public ModelAndView deleteComment(@PathVariable Long commentId, @PathVariable Long postId) {
         Optional<Comment> comment = commentService.findById(commentId);
@@ -77,6 +90,22 @@ public class UserController {
         return comment;
     }
 
+    @GetMapping("edit-post/{id}")
+    private ModelAndView showEditPost(@PathVariable Long id) {
+        Optional<Post> post = postService.findById(id);
+        ModelAndView modelAndView = new ModelAndView("post/editpost");
+        modelAndView.addObject("post", post.get());
+        return modelAndView;
+    }
+    @PostMapping("edit-post")
+    private ModelAndView editPost(@ModelAttribute("post") Post post, RedirectAttributes redirectAttributes){
+        postService.save(post);
+        redirectAttributes.addFlashAttribute("success", "edit success");
+        ModelAndView modelAndView = new ModelAndView("redirect:/user");
+        modelAndView.addObject("post", post);
+        return modelAndView;
+    }
+
     @GetMapping("/delete-post/{id}")
     public ModelAndView deletePost(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("post/deletepost");
@@ -107,8 +136,13 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping("/create-post")
+    public ModelAndView createPost() {
+        ModelAndView modelAndView = new ModelAndView("post/createpost");
+        return modelAndView;
+    }
 
-    @PostMapping("/createpost")
+    @PostMapping("/create-post")
     public ModelAndView homePost(@ModelAttribute("post") Post post, @ModelAttribute("postImageFile") MultipartFile postImageFile) {
         ModelAndView modelAndView = new ModelAndView("redirect:/user");
         post.setUser(userService.getCurrentUser());
@@ -171,7 +205,7 @@ public class UserController {
         return "login";
     }
 
-    @ModelAttribute("userCurrent")
+    @ModelAttribute("user")
     public User getUserCurrent() {
         User userCurrent = userService.getCurrentUser();
         return userCurrent;

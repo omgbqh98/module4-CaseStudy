@@ -366,9 +366,9 @@
                 <li class="active"><a href="/login">Sign In <span
                         class="sr-only">(current)</span></a></li>
             </ul>
-            <form class="navbar-form navbar-right search-form" role="search" id="search_post" method="get"
-                  action="????????">
-                <input type="text" class="form-control" placeholder="Search"/>
+            <form   class="navbar-form navbar-right search-form" role="search" id="search_post"
+                 >
+                <input name="s" type="text" class="form-control" placeholder="Search"/>
                 <a href="javascript:{}"
                    onclick="document.getElementById('search_post').submit(); return false;">Search<span class="sr-only">(current)</span></a>
             </form>
@@ -395,7 +395,8 @@ Hero
                                      th:src="${category.getIcon()}"
                                      alt=""></td>
                             <td><a style="margin-left: 20px"
-                                   th:href="@{/home/timeline/category/__${category.getId_category()}__}"><span
+                                   th:href="@{/home/timeline/category/__${category.getId_category()}__}">
+                                <span
                                     th:text="${category.getName()}"></span></a></td>
                         </tr>
 
@@ -409,6 +410,8 @@ Hero
 
             </div>
             <th:block th:each="posts: ${listPost}">
+                <th:block th:each="category : ${posts.getCategory()}">
+
             <div style="margin-left: 25%" class="col-lg-6 offset-lg-3 ">
 
                 <div class="cardbox shadow-lg bg-white">
@@ -431,18 +434,26 @@ Hero
                     </div><!--/ cardbox-item -->
                     <div class="cardbox-base">
                         <ul class="float-right">
-                            <li><a href="user/sign_in.html"><i class="fa fa-comments"></i></a></li>
+                            <li><a th:href="@{/home/timeline/viewpost/__${posts.getPost_id()}__}"><i class="fa fa-comments"></i></a></li>
                             <li><a><em class="mr-5">12 Comments</em></a></li>
                         </ul>
                         <ul>
                             <li><a href="user/sign_in.html"><i class="fa fa-thumbs-up"></i></a></li>
                             <li><a><span>242 Likes</span></a></li>
                         </ul>
+                        <ul>
+                            <li><a  th:href="@{/home/timeline/category/__${category.getId_category()}__}"><i></i><img height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"
+                                                                                                                                               th:src="${category.getIcon()}"
+                                                                                                                                               alt=""></a></li>
+                            <li><a><span th:text="${category.getName()}"></span></a></li>
+                        </ul>
 
                     </div><!--/ cardbox -->
                 </div><!--/ col-lg-6 -->
 
             </div><!--/ row -->
+                </th:block>
+
             </th:block>
 
             <div class="nen" style="right: 100px;position: fixed ">

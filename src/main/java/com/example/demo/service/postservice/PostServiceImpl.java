@@ -75,4 +75,9 @@ public class PostServiceImpl implements PostService{
     public Long countPost() {
         return postRepository.count();
     }
+
+    @Override
+    public Iterable<Post> findByTitleContaining(String title) {
+        return postRepository.findByTitleContaining( title);
+    }
 }

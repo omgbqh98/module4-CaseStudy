@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" action="/user/create-post" th:object="${post}" enctype="multipart/form-data">
+    <textarea th:field="*{title}" rows="2" placeholder="What do you feel today?"></textarea>
+    <div class="attachments">
+        <ul>
+            <li>
+                <i class="fa fa-image"></i>
+                <label class="fileContainer">
+                    <input type="file" name="postImageFile">
+                </label>
+            </li>
+            <li>
+                <select th:field="*{category}">
+                    <option th:each="p : ${categories}" th:value="${p.id_category}" th:text="${p.name}"></option>
+                </select>
+            </li>
+            <li>
+                <button type="submit">Publish</button>
+            </li>
+        </ul>
+    </div>
+</form>
+</body>
+</html>

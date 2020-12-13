@@ -18,6 +18,8 @@ public interface PostService extends GeneralService<Post> {
 
     Long countPost();
 
+    Iterable<Post> findByTitleContaining(String title);
+
 //    Post findByPost_Id(Long id);
 
 }

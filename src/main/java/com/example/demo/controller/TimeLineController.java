@@ -9,11 +9,9 @@ import com.example.demo.service.commentservice.CommentService;
 import com.example.demo.service.postservice.PostService;
 import com.example.demo.service.userservice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Iterator;
@@ -41,10 +39,24 @@ public class TimeLineController {
         return postService.countPost();
     }
 
+
     @GetMapping()
-    public ModelAndView home(@ModelAttribute String username) {
+    public ModelAndView home(@RequestParam("s") Optional<String> s , @ModelAttribute String username) {
+        Iterable<Post> posts;
+        if (s.isPresent()) {
+            posts = postService.findByTitleContaining(s.get());
+        } else {
+            posts = postService.getAllByOrderByDateDesc();
+        }
         ModelAndView modelAndView = new ModelAndView("home");
+        modelAndView.addObject("listPost", posts);
         return modelAndView;
+    }
+
+    @ModelAttribute("listPost")
+    public Iterable<Post> listPost1() {
+        Iterable<Post> listPost = postService.getAllByOrderByDateDesc();
+        return listPost;
     }
 
     //Tac gia: The Phen`
@@ -58,6 +70,22 @@ public class TimeLineController {
         return modelAndView;
     }
 
+    @ModelAttribute("categories")
+    public Iterable<Category> categories() {
+        return categoryService.findAll();
+    }
+
+    @GetMapping("/viewpageAdmin/{id}")
+    public ModelAndView viewpageAdmin(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("adminviewpage");
+        User user = userService.findById(id).get();
+        modelAndView.addObject("user",user);
+        Iterable<Post> posts = postService.getAllUserOrderByDateDesc(user);
+        modelAndView.addObject("posts", posts);
+        modelAndView.addObject("idUser", id);
+        return modelAndView;
+    }
+
     @GetMapping("/viewpage/{id}")
     public ModelAndView viewpage(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("viewpage");
@@ -67,7 +95,6 @@ public class TimeLineController {
         modelAndView.addObject("posts", posts);
         modelAndView.addObject("idUser", id);
         return modelAndView;
-
     }
 
     @GetMapping("viewpost-myhome/{id}")
@@ -105,10 +132,7 @@ public class TimeLineController {
         return post;
     }
 
-    @ModelAttribute("categories")
-    public Iterable<Category> categories() {
-        return categoryService.findAll();
-    }
+
 
     @ModelAttribute("listPost")
     public Iterable<Post> listPost() {

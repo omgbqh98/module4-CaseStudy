@@ -15,6 +15,8 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
 
     Iterable<Post> findAllByCategory(Category category);
 
+    Iterable<Post> findByTitleContaining(String title);
+
 
     Long countPostBy();
 

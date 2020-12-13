@@ -336,9 +336,6 @@
 
 </head>
 <body th:object="${user}">
-
-
-
 <nav class="navbar navbar-findcond navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -361,15 +358,8 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" th:text="${user.getFullName()}">
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="/user/myhome">Posts</a></li>
-                        <li><a href="/user/create-post">Upload</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Mangager Account</a></li>
-                        <li><a href="/">Log Out</a></li>
-                    </ul>
+                    <p style="margin-top: 15px" th:text="${user.getFullName()}"></p>
+
                 </li>
             </ul>
             <form class="navbar-form navbar-right search-form" role="search" id="search_post" method="get"
@@ -407,7 +397,7 @@ Hero
                     </th:block>
                 </table>
             </div>
-            <th:block th:each="posts : ${myListPost}">
+            <th:block th:each="posts : ${posts}">
                 <div style="margin-left: 15%" class="col-lg-6 offset-lg-3 ">
 
                     <div class="cardbox shadow-lg bg-white">
@@ -429,7 +419,8 @@ Hero
                         </div><!--/ cardbox-heading -->
                         <div class="cardbox-item">
                             <a th:href="@{/home/timeline/viewpost-myhome/__${posts.getPost_id()}__}"><img width="100%" height="auto" class="img-fluid"
-                                                                                                   th:src="${posts.getPostImage()}" alt="Image"></a>
+                                                                                                   th:src="${posts.getPostImage()}"
+                                                                                                   alt="Image"></a>
                         </div><!--/ cardbox-item -->
                         <div class="cardbox-base">
                             <ul class="float-right">
@@ -444,16 +435,10 @@ Hero
                         </div><!--/ cardbox -->
                     </div><!--/ col-lg-6 -->
                 </div><!--/ row -->
-
-                    <a th:href="@{/user/edit-post/__${posts.post_id}__}">Edit</a>
-                    <a th:href="@{/user/delete-post/__${posts.post_id}__}">delete</a>
-
-
             </th:block>
         </div><!--/ container -->
     </div>
 </section>
 
-<h1><a href="/user/update-fullName">update full name</a></h1>
 </body>
 </html>

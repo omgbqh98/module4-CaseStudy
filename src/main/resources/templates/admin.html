@@ -48,7 +48,7 @@
         <tbody>
         <tr>
             <td th:text="${user.getId()}" ></td>
-            <td> <a th:href="@{#}" th:text="${user.getName()}">></a> </td>
+            <td> <a th:href="@{/home/timeline/viewpageAdmin/__${user.id}__}" th:text="${user.getName()}">></a> </td>
 <!--            <td th:text="${user.getAvatar()}"></td>-->
             <td><img width="50px" th:src="${user.getAvatar()}" alt=""></td>
 
@@ -60,6 +60,7 @@
             <td>
                 <a th:href="@{/admin/blockUser/__${user.getId()}__}">Block</a>
                 <a th:href="@{/admin/unBlockUser/__${user.getId()}__}">Unblock</a>
+                <a th:href="@{/admin/add-roleAdmin/__${user.getId()}__}">ADD ROLE_ADMIN</a>
             </td>
         </tr>
         </tbody>

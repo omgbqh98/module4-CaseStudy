@@ -52,25 +52,21 @@ public class AdminController {
         }
         ModelAndView modelAndView = new ModelAndView("admin");
         modelAndView.addObject("listUsers", users);
-//        Role role_user = roleService.getById((long) 2);
-//        Role role_guest = roleService.getById((long) 3);
-//        modelAndView.addObject("listUsers", userService.getAllByRoleOrRole(role_user, role_guest));
         return modelAndView;
     }
 
-
-
-//    @GetMapping("")
-//    public ModelAndView adminPage(){
-//        ModelAndView modelAndView = new ModelAndView("admin");
-//        Role role_user = roleService.getById((long) 2);
-//        Role role_guest = roleService.getById((long) 3);
-//        modelAndView.addObject("listUsers",userService.getAllByRoleOrRole(role_user,role_guest));
-//        return modelAndView;
-//    }
-
-
-
+    @GetMapping("/add-roleAdmin/{id}")
+    public ModelAndView addRoleAdmin(@PathVariable Long id,Pageable pageable) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/admin");
+        Optional<User> currentUser = userService.findById(id);
+        User user = currentUser.get();
+        Role role_guest = roleService.getById((long) 1);
+        user.setRole(role_guest);
+        user.setStatus("active");
+        userService.save(user);
+        modelAndView.addObject("listUsers", userService.findAll(pageable));
+        return modelAndView;
+    }
 
 
     @GetMapping("/blockUser/{id}")
@@ -79,7 +75,6 @@ public class AdminController {
         Optional<User> currentUser = userService.findById(id);
         User user = currentUser.get();
         Role role_guest = roleService.getById((long) 3);
-//        Role role_user = roleService.getById((long) 2);
         user.setRole(role_guest);
         user.setStatus("disable");
         userService.save(user);

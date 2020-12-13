@@ -36,6 +36,7 @@ public class CategoryController {
     }
     @PostMapping("/showCreate")
     public ModelAndView showCreate(Category category){
+        category.setIcon("https://i.pinimg.com/originals/3a/69/ae/3a69ae3942d4a9da6c3cbc93b1c8f051.jpg");
         categoryService.save(category);
         ModelAndView modelAndView = new ModelAndView("redirect:/categories");
         modelAndView.addObject("category", new Category());
