@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--Thông báo Username trùng-->
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+
+<form action="/register" method="post" th:object="${user}">
+    <input type="text" th:field="*{name}">username <br>
+    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></td>
+
+    <input type="text" th:field="*{pass}">password <br>
+    <td th:if="${#fields.hasErrors('pass')}" th:errors="*{pass}"></td>
+
+
+    <input type="text" th:field="*{fullName}">fullname <br>
+    <td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></td>
+
+    <input type="text" th:field="*{Q1}">cau hoi bao mat 1 <br>
+    <td th:if="${#fields.hasErrors('Q1')}" th:errors="*{Q1}"></td>
+
+    <input type="text" th:field="*{Q2}">cau hoi bao mat 2 <br>
+    <td th:if="${#fields.hasErrors('Q2')}" th:errors="*{Q2}"></td>
+
+    <input type="submit" value="register" >
+</form>
+
+</body>
+</html>
+</html>

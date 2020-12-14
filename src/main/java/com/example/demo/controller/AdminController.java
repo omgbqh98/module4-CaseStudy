@@ -27,6 +27,11 @@ public class AdminController {
         return roleService.findAll(pageable);
     }
 
+    @ModelAttribute("countUser")
+    public Long countUser() {
+        return userService.countByUser();
+    }
+
     @ModelAttribute("roles")
     public Iterable<Role> roles() {
         return roleService.findAll();
@@ -41,6 +46,7 @@ public class AdminController {
     public String accessDenied() {
         return "redirect:/login";
     }
+
 
     @GetMapping("")
     public ModelAndView listUser(@RequestParam("s") Optional<String> s, @PageableDefault(size = 5) Pageable pageable) {

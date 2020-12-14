@@ -1,8 +1,12 @@
 package com.example.demo.controller;
 
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.model.Category;
+import com.example.demo.model.Post;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
+import com.example.demo.service.categoryservice.CategoryService;
+import com.example.demo.service.postservice.PostService;
 import com.example.demo.service.roleservice.RoleService;
 import com.example.demo.service.userservice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,11 @@ public class HomeController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private PostService postService;
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping("/block")
     public String block() {
         return "error";
@@ -48,12 +57,43 @@ public class HomeController {
         return modelAndView;
     }
 
+    @GetMapping("/listPostAdmin")
+    public ModelAndView listPostAdmin(@RequestParam("s") Optional<String> s, @ModelAttribute String name) {
+        Iterable<Post> posts;
+        if (s.isPresent()) {
+            posts = postService.findByTitleContaining(s.get());
+        } else {
+            posts = postService.getAllByOrderByDateDesc();
+        }
+        ModelAndView modelAndView = new ModelAndView("post/listPostAdmin");
+        modelAndView.addObject("listPost", posts);
+        return modelAndView;
+    }
+
+    @ModelAttribute("categories")
+    public Iterable<Category> categories() {
+        return categoryService.findAll();
+    }
+
+//    @GetMapping()
+//    public ModelAndView home(@RequestParam("s") Optional<String> s , @ModelAttribute String username) {
+//        Iterable<Post> posts;
+//        if (s.isPresent()) {
+//            posts = postService.findByTitleContaining(s.get());
+//        } else {
+//            posts = postService.getAllByOrderByDateDesc();
+//        }
+//        ModelAndView modelAndView = new ModelAndView("home");
+//        modelAndView.addObject("listPost", posts);
+//        return modelAndView;
+//    }
+
     @PostMapping("/resetsuccess")
-    public String newPassword(@Validated @ModelAttribute("user") User user, @RequestParam String password, RedirectAttributes redirect, BindingResult bindingResult) {
+    public String newPassword(@Validated @ModelAttribute("user") User user, @RequestParam String newPassword, RedirectAttributes redirect, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             return "redirect:/newpassword";
         }
-        user.setPass(password);
+        user.setPass(newPassword);
         userService.save(user);
         redirect.addFlashAttribute("message", "Cập nhật Mật khẩu thành công!");
         return "redirect:/login";

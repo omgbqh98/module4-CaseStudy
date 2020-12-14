@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Verification - Reset Password</title>
+</head>
+<body>
+<th:block th:if="${message}">
+    <p style="color: red" th:text="${message}"></p>
+</th:block>
+<form action="/newpassword" method="post" th:object="${user}">
+    <table>
+        <tr>
+            <td><label>Username</label></td>
+            <td><input type="text" th:field="*{name}" autocomplete="off"></td>
+            <th:block th:if="${usernameError}">
+                <td style="color: red" th:text="${usernameError}"></td>
+            </th:block>
+        </tr>
+        <tr>
+            <td><label>Question 1:</label></td>
+            <td><input type="text" th:field="*{Q1}" autocomplete="off"></td>
+            <th:block th:if="${q1Error}">
+                <td style="color: red" th:text="${q1Error}"></td>
+            </th:block>
+        </tr>
+        <tr>
+            <td><label>Question 2:</label></td>
+            <td><input type="text" th:field="*{Q2}" autocomplete="off"></td>
+            <th:block th:if="${q2Error}">
+                <td style="color: red" th:text="${q2Error}"></td>
+            </th:block>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Reset Password"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

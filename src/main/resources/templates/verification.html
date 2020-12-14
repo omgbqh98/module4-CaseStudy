@@ -2,40 +2,386 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Verification - Reset Password</title>
+    <title>Forgot Password</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!--    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">-->
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <style>
+        body {
+            /*background-image: url("http://krisaru.com/wp-content/uploads/2011/08/background-website-light-blue-wallpapers-background-2.jpg");*/
+        }
+        nav.navbar-findcond {
+            background: #fff;
+            border-color: #ccc;
+            box-shadow: 0 0 2px 0 #ccc;
+        }
+
+        nav.navbar-findcond a {
+            color: #f14444;
+        }
+
+        nav.navbar-findcond ul.navbar-nav a {
+            color: #f14444;
+            border-style: solid;
+            border-width: 0 0 2px 0;
+            border-color: #fff;
+        }
+
+        nav.navbar-findcond ul.navbar-nav a:hover,
+        nav.navbar-findcond ul.navbar-nav a:visited,
+        nav.navbar-findcond ul.navbar-nav a:focus,
+        nav.navbar-findcond ul.navbar-nav a:active {
+            background: #fff;
+        }
+
+        nav.navbar-findcond ul.navbar-nav a:hover {
+            border-color: #f14444;
+        }
+
+        nav.navbar-findcond button.navbar-toggle {
+            background: #f14444;
+            border-radius: 2px;
+        }
+
+        nav.navbar-findcond button.navbar-toggle:hover {
+            background: #999;
+        }
+
+        nav.navbar-findcond button.navbar-toggle > span.icon-bar {
+            background: #fff;
+        }
+
+        nav.navbar-findcond ul.dropdown-menu > li > a {
+            color: #444;
+        }
+
+        nav.navbar-findcond ul.dropdown-menu > li > a:hover {
+            background: #f14444;
+            color: #fff;
+        }
+
+        img.logo {
+            width: 150px;
+            padding-top: 0px;
+            margin-top: -8px;
+        }
+    </style>
+
+    <!--        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css-post">-->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        .hero {
+            padding: 6.25rem 0px !important;
+            margin: 0px !important;
+        }
+
+        /* ------------------------------- */
+        /* Cardbox Heading
+        ---------------------------------- */
+
+        .cardbox .float-right a:hover {
+            background: #f4f4f4 !important;
+        }
+
+
+        /* ------------------------------- */
+        /* Media Section
+        ---------------------------------- */
+        .media img {
+            width: 48px !important;
+            height: 48px !important;
+            padding: 2px;
+            border: 2px solid #f4f4f4;
+        }
+
+        .media-body p {
+            font-family: 'Rokkitt', serif;
+            font-weight: 500 !important;
+            font-size: 14px;
+            color: #88898a;
+        }
+
+        .media-body small span {
+            font-family: 'Rokkitt', serif;
+            font-size: 12px;
+            color: #aaa;
+            margin-right: 10px;
+        }
+
+
+        /* ------------------------------- */
+        /* Cardbox Item
+        ---------------------------------- */
+
+        /* ------------------------------- */
+        /* Cardbox Base
+        ---------------------------------- */
+
+        .cardbox-base ul {
+            margin: 10px 0px 10px 15px !important;
+            padding: 10px !important;
+            font-size: 0px;
+            display: inline-block;
+        }
+
+        .cardbox-base li {
+            list-style: none;
+            margin: 0px 0px 0px -8px !important;
+            padding: 0px 0px 0px 0px !important;
+            display: inline-block;
+        }
+
+        .cardbox-base li a {
+            margin: 0px !important;
+            padding: 0px !important;
+        }
+
+        .cardbox-base li a i {
+            position: relative;
+            top: 4px;
+            font-size: 16px;
+            color: #8d8d8d;
+            margin-right: 15px;
+        }
+
+        .cardbox-base li a span {
+            font-family: 'Rokkitt', serif;
+            font-size: 14px;
+            color: #8d8d8d;
+            margin-left: 20px;
+            position: relative;
+            top: 5px;
+        }
+
+        .cardbox-base li a em {
+            font-family: 'Rokkitt', serif;
+            font-size: 14px;
+            color: #8d8d8d;
+            position: relative;
+            top: 3px;
+        }
+
+        .cardbox-base li a img {
+            width: 25px;
+            height: 25px;
+            margin: 0px !important;
+            border: 2px solid #fff;
+        }
+
+
+        /* ------------------------------- */
+        /* Cardbox Comments
+        ---------------------------------- */
+
+        .cardbox-comments .comment-avatar img {
+            margin-top: 1px;
+            margin-right: 10px;
+            position: relative;
+            display: inline-block;
+            text-align: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .search input[type="text"] {
+            background-color: #fff;
+            line-height: 10px;
+            padding: 15px 60px 20px 10px;
+            border: none;
+            border-radius: 4px;
+            width: 350px;
+            font-family: 'Rokkitt', serif;
+            font-size: 14px;
+            color: #8d8d8d;
+            height: inherit;
+            font-weight: 700;
+        }
+
+        .search button {
+            position: absolute;
+            right: 0;
+            top: 0px;
+            border: none;
+            background-color: transparent;
+            color: #bbbbbb;
+            padding: 15px 25px;
+            cursor: pointer;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .search button i {
+            font-size: 20px;
+            line-height: 30px;
+            display: block;
+        }
+
+        .author a {
+            font-family: 'Rokkitt', serif;
+            font-size: 16px;
+            color: #00C4CF;
+        }
+
+        .author p {
+            font-family: 'Rokkitt', serif;
+            font-size: 16px;
+            color: #8d8d8d;
+        }
+
+
+    </style>
+
 </head>
 <body>
-<th:block th:if="${message}">
-    <p style="color: red" th:text="${message}"></p>
-</th:block>
-<form action="/newpassword" method="post" th:object="${user}">
-    <table>
-        <tr>
-            <td><label>Username</label></td>
-            <td><input type="text" th:field="*{name}" autocomplete="off"></td>
-            <th:block th:if="${usernameError}">
-                <td style="color: red" th:text="${usernameError}"></td>
-            </th:block>
-        </tr>
-        <tr>
-            <td><label>Question 1:</label></td>
-            <td><input type="text" th:field="*{Q1}" autocomplete="off"></td>
-            <th:block th:if="${q1Error}">
-                <td style="color: red" th:text="${q1Error}"></td>
-            </th:block>
-        </tr>
-        <tr>
-            <td><label>Question 2:</label></td>
-            <td><input type="text" th:field="*{Q2}" autocomplete="off"></td>
-            <th:block th:if="${q2Error}">
-                <td style="color: red" th:text="${q2Error}"></td>
-            </th:block>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Reset Password"></td>
-        </tr>
-    </table>
-</form>
+<nav class="navbar navbar-findcond navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><img class="logo"
+                                                  src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.0-9/130207715_3570311793049359_2133162330924179758_n.jpg?_nc_cat=100&ccb=2&_nc_sid=730e14&_nc_ohc=MCLRgApyIMAAX-hKEI7&_nc_ht=scontent.fhan3-3.fna&oh=f17489e17541c981a7ca165f98087422&oe=5FF49613"
+                                                  alt=""></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="active"><a style=" font-weight: bold" href="#">HOT <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="active"><a style=" font-weight: bold" href="#">FRESH <span
+                        class="sr-only">(current)</span></a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="/login">Sign In <span
+                        class="sr-only">(current)</span></a></li>
+            </ul>
+            <!--            <form class="navbar-form navbar-right search-form" role="search" id="search_post" method="get"-->
+            <!--                  action="????????">-->
+            <!--                <input type="text" class="form-control" placeholder="Search"/>-->
+            <!--                <a href="javascript:{}"-->
+            <!--                   onclick="document.getElementById('search_post').submit(); return false;">Search<span class="sr-only">(current)</span></a>-->
+            <!--            </form>-->
+        </div>
+    </div>
+</nav>
+
+<link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- ==============================================
+Hero
+=============================================== -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#register').attr("disabled", true);
+    });
+</script>
+<section class="hero">
+    <div class="container">
+        <div class="row">
+            <div style="float: left; margin-left: 3%;margin-top: 5%">
+                <h3>Category</h3>
+                <table>
+                    <th:block th:each="category : ${categories}">
+                        <tr >
+                            <td><img height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"
+                                     th:src="${category.getIcon()}"
+                                     alt=""></td>
+                            <td><a style="margin-left: 20px"
+                                   th:href="@{/home/timeline/category/__${category.getId_category()}__}"><span
+                                    th:text="${category.getName()}"></span></a></td>
+                        </tr>
+                    </th:block>
+                </table>
+            </div>
+            <div>
+                <div class="span6"
+                     style="display: block;width: 450px;margin-left: 30%;border-right: 50px; padding: 50px; border-style: solid; border: #222222; border-radius: 20% ; background: #f4f4f4">
+                    <div class="area">
+                        <form class="form-horizontal" action="/newpassword" method="post" th:object="${user}">
+                            <div class="heading">
+                                <h3 class="form-heading">Forgot Password</h3>
+                            </div>
+
+                            <th:block th:if="${message}">
+                                <p style="color: red" th:text="${message}"></p>
+                            </th:block>
+                            <div class="control-group">
+                                <label class="control-label" for=
+                                        "inputUsername">Username</label>
+
+                                <div class="controls">
+                                    <input id="inputUsername" placeholder=
+                                            "E.g. ashwinhegde" type="text" th:field="*{name}">
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for=
+                                        "inputQuestion1">Security Question 1:</label><br><label>What is the name of your
+                                favorite childhood friend?
+                            </label>
+
+                                <div class="controls">
+                                    <input id="inputQuestion1"  type="text" th:field="*{Q1}">
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for=
+                                        "inputQuestion2">Security Question 2:</label><br>
+                                <label>Where were you when you had your first kiss?</label>
+
+                                <div class="controls">
+                                    <input id="inputQuestion2"  type="text" th:field="*{Q2}" >
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <br>
+                                <div class="controls">
+                                    <button class="btn btn-success" type= "submit" id="register">Check</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div><!--/ row -->
+    </div><!--/ container -->
+    </div>
+</section>
+<script>
+    (function() {
+        $('form  input').keyup(function() {
+
+            var empty = false;
+            $('form  input').each(function() {
+                if ($(this).val() == '') {
+                    empty = true;
+                }
+            });
+
+            if (empty) {
+                $('#register').attr('disabled', 'disabled'); // updated according to http://stackoverflow.com/questions/7637790/how-to-remove-disabled-attribute-with-jquery-ie
+            } else {
+                $('#register').removeAttr('disabled'); // updated according to http://stackoverflow.com/questions/7637790/how-to-remove-disabled-attribute-with-jquery-ie
+            }
+        });
+    })()
+</script>
 </body>
 </html>

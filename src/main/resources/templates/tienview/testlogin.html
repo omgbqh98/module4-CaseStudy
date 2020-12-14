@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<th:block th:if="${message}">
+    <p style="color: green" th:text="${message}"></p>
+    <a href="/">Back To Home</a>
+</th:block>
+<form action="/login" method="post">
+    <label>Username</label>
+    <input id="username" type="text" name="username">
+    <br>
+    <label>Password</label>
+    <input id="password" type="text" name="password">
+    <br>
+    <input type="submit" value="Login">
+</form>
+<a href="/register">Đăng Ký</a>
+<br>
+<a href="/resetpassword">Quên Mật Khẩu</a>
+</body>
+</html>

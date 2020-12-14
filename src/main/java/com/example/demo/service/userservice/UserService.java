@@ -26,4 +26,6 @@ public interface UserService extends GeneralService<User> {
     Iterable<User> getAllByNameIsContaining(String name);
 
     Iterable<User> getAllByRoleOrRole(Role role1, Role role2);
+
+    Long countByUser();
 }

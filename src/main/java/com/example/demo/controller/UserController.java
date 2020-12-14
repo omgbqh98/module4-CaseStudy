@@ -2,17 +2,16 @@ package com.example.demo.controller;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.example.demo.model.Category;
-import com.example.demo.model.Comment;
-import com.example.demo.model.Post;
-import com.example.demo.model.User;
+import com.example.demo.model.*;
 import com.example.demo.service.categoryservice.CategoryService;
 import com.example.demo.service.commentservice.CommentService;
+import com.example.demo.service.likeservice.LikeService;
 import com.example.demo.service.postservice.PostService;
 import com.example.demo.service.userservice.UserService;
 import org.cloudinary.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,10 +35,17 @@ public class UserController {
     UserService userService;
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    LikeService likeService;
 
     String mCloudName = "dnulbp9wi";
     String mApiKey = "388747591265657";
     String mApiSecret = "QrSQljoMltB5OgDmxQM81UBSB-0";
+
+//    @ModelAttribute("countLike")
+//    public Long countLike(Post post) {
+//        return likeService.countLike(post);
+//    }
 
     @GetMapping("update-fullName")
     public ModelAndView updateFullName() {
@@ -72,6 +78,41 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping("/delete-commentAdmin/{commentId}/{postId}")
+    public ModelAndView deleteCommentAdmin(@PathVariable Long commentId, @PathVariable Long postId) {
+        Optional<Comment> comment = commentService.findById(commentId);
+        Optional<Post> post = postService.findById(postId);
+        ModelAndView modelAndView = new ModelAndView("comment/deleteCommentAdmin");
+        modelAndView.addObject("post", post.get());
+        modelAndView.addObject("comment", comment.get());
+        return modelAndView;
+    }
+
+    @PostMapping("/delete-commentAdmin/{id}")
+    public ModelAndView deleteCommentAdmin(@PathVariable Long id, Comment comment) {
+        commentService.remove(comment.getComment_id());
+        Optional<Post> post = postService.findById(id);
+        ModelAndView modelAndView = new ModelAndView("redirect:/home/timeline/viewpost-admin/"+post.get().getPost_id());
+        return modelAndView;
+    }
+
+    @PostMapping("/like/{id}")
+    public String likePost(@ModelAttribute("likePost") LikePost like, @PathVariable Long id, Model model) {
+            if (getUserCurrent()!=null) {
+                Post post = postService.findById(id).get();
+                User user = userService.findByName(getUserCurrent().getName());
+                like.setPost(post);
+                like.setUser(user);
+                likeService.save(like);
+               Long likePost= likeService.countLike(post);
+                model.addAttribute("countLike", likePost);
+            } else {
+                return "redirect:/login";
+            }
+
+        return "redirect:/home/timeline/viewpost/" + id;
+    }
+
     @PostMapping("/create-comment/{id}")
     public String createComment(@ModelAttribute("comment") Comment comment, @PathVariable Long id) {
         Post post = postService.findById(id).get();
@@ -83,6 +124,12 @@ public class UserController {
         return "redirect:/home/timeline/viewpost/" + id;
     }
 
+
+    @ModelAttribute("likePost")
+    public LikePost newLikePost() {
+        LikePost likePost = new LikePost();
+        return likePost;
+    }
 
     @ModelAttribute("comment")
     public Comment newComment() {
@@ -117,7 +164,7 @@ public class UserController {
 
     @PostMapping("/delete-post")
     public ModelAndView deletePost(@ModelAttribute("post") Post post, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("success", "delete sucess");
+        redirectAttributes.addFlashAttribute("success", "delete success");
         ModelAndView modelAndView = new ModelAndView("redirect:/user");
         postService.remove(post.getPost_id());
         return modelAndView;

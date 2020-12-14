@@ -1,11 +1,8 @@
 package com.example.demo.controller;
-
-import com.example.demo.model.Category;
-import com.example.demo.model.Comment;
-import com.example.demo.model.Post;
-import com.example.demo.model.User;
+import com.example.demo.model.*;
 import com.example.demo.service.categoryservice.CategoryService;
 import com.example.demo.service.commentservice.CommentService;
+import com.example.demo.service.likeservice.LikeService;
 import com.example.demo.service.postservice.PostService;
 import com.example.demo.service.userservice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -33,10 +30,24 @@ public class TimeLineController {
     private PostService postService;
     @Autowired
     CommentService commentService;
+    @Autowired
+    LikeService likeService;
 
     @ModelAttribute("countPost")
     private Long countPost(){
         return postService.countPost();
+    }
+
+    @ModelAttribute("likePost")
+    public LikePost newLikePost() {
+        LikePost likePost = new LikePost();
+        return likePost;
+    }
+
+    @ModelAttribute("countLike")
+    public Long countLike() {
+        Long like = likeService.countAllLike();
+        return like;
     }
 
 
@@ -75,6 +86,23 @@ public class TimeLineController {
         return categoryService.findAll();
     }
 
+    @PostMapping("/AdminDeletePost")
+    public ModelAndView deletePost(@ModelAttribute("post") Post post, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("success", "delete success");
+        ModelAndView modelAndView = new ModelAndView("redirect:/listPostAdmin");
+//        User user = userService.findById(id).get();
+        postService.remove(post.getPost_id());
+        return modelAndView;
+    }
+
+    @GetMapping("/adminDeletePost/{id}")
+    public ModelAndView deletePost(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("post/admindeletepost");
+        Optional<Post> post = postService.findById(id);
+        modelAndView.addObject("posts", post.get());
+        return modelAndView;
+    }
+
     @GetMapping("/viewpageAdmin/{id}")
     public ModelAndView viewpageAdmin(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("adminviewpage");
@@ -108,6 +136,17 @@ public class TimeLineController {
         return modelAndView;
     }
 
+    @GetMapping("viewpost-admin/{id}")
+    public ModelAndView viewpostAdmin(@PathVariable Long id) {
+        Optional<Post> post = postService.findById(id);
+        Iterable<Comment> comments = commentService.getAllByPost(post.get());
+        Iterator<Comment> commentIterator = comments.iterator();
+        ModelAndView modelAndView = new ModelAndView("post/viewpostadmin");
+        modelAndView.addObject("post", post.get());
+        modelAndView.addObject("comments", commentIterator);
+        return modelAndView;
+    }
+
     //Tac gia: The Phen
     @GetMapping("/viewpost/{id}")
     public ModelAndView viewPost(@PathVariable Long id) {
@@ -132,8 +171,6 @@ public class TimeLineController {
         return post;
     }
 
-
-
     @ModelAttribute("listPost")
     public Iterable<Post> listPost() {
         Iterable<Post> listPost = postService.getAllByOrderByDateDesc();
@@ -153,8 +190,6 @@ public class TimeLineController {
     public User currenUser(){
         return userService.getCurrentUser();
     }
-
-
 
     @GetMapping("/khongcoquyen")
     public String accessDenied(){

@@ -22,4 +22,6 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
     Iterable<User> getAllByRoleOrRole(Role role1, Role role2);
 
     Iterable<User> getAllByNameIsContaining(String name);
+
+    Long countAllBy();
 }

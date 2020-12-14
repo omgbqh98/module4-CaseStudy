@@ -86,6 +86,11 @@ public class UserImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public Long countByUser() {
+        return userRepository.countAllBy();
+    }
+
+    @Override
     public Iterable<User> findAll() {
         return userRepository.findAll();
     }
