@@ -358,17 +358,16 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="/login">Sign In <span
-                        class="sr-only">(current)</span></a></li>
+
             </ul>
-            <form   class="navbar-form navbar-right search-form" role="search" id="search_post"
-            >
-                <input name="s" type="text" class="form-control" placeholder="Search"/>
-                <a href="javascript:{}"
-                   onclick="document.getElementById('search_post').submit(); return false;">Search<span class="sr-only">(current)</span></a>
-            </form>
         </div>
     </div>
 </nav>
+
+
+
+
+
 
 <link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet">
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -433,23 +432,20 @@ Hero
                     <div>
                         <th:block th:each="comment : ${comments}">
                             <br>
-                            <table border="1" cellspacing="5">
-                                <tr>
-                                    <td th:text="${comment.getUser().getFullName()}"></td>
-                                </tr>
-                                <tr>
-                                    <td th:text="${comment.getDate()}"></td>
-                                </tr>
-                                <tr>
-                                    <td th:text="${comment.getContent()}"></td>
-                                </tr>
-                            </table>
+                            <div style="width: 100%;background-color: #bbbbbb; border-radius: 2%;padding: 10px;margin: 2px">
+                                <p style="font-weight: bold" th:text="${comment.getUser().getFullName()}"></p>
+
+                                <p th:text="${comment.getDate()}"></p>
+<!--                                <a class="btn btn-danger" style="float: right" th:href="@{/user/delete-comment/__${comment.getComment_id()}__/__${post.getPost_id()}__}">Delete</a>-->
+
+                                <p style="margin-bottom: 10px" th:text="${comment.getContent()}"></p>
+                            </div>
 
                         </th:block>
                         <form th:action="@{/user/create-comment/__${post.post_id}__}" method="post" th:object="${comment}" >
                             <input type="text" class="form-control" id="exampleInputPassword1"
                                    placeholder="comment" th:field="*{content}">
-                            <input type="submit" value="comment">
+                            <input onclick='this.form.submit()' type="submit" value="comment">
                         </form>
                         <br>
                         </th:block>
@@ -460,5 +456,13 @@ Hero
     </div>
 </section>
 
+<script>
+
+</script>
+<div><p>so luong user: </p><h2 th:text="${countLike}"></h2></div>
+<form th:action="@{/user/like/__${post.post_id}__}" method="post" th:object="${likePost}">
+    <!--    <input type="text" class="form-control" th:field="*{likePost}">-->
+    <input type="submit" value="like">
+</form>
 </body>
 </html>

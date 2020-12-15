@@ -24,6 +24,11 @@ public class LikeServiceImpl implements LikeService{
     }
 
     @Override
+    public Iterable<LikePost> getByPost(Post post) {
+        return likeRepository.getByPost(post);
+    }
+
+    @Override
     public Iterable<LikePost> findAll() {
         return likeRepository.findAll();
     }

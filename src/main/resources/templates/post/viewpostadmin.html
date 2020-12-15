@@ -1,65 +1,106 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>View Post</title>
+    <title>Post Management</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <style>
+        @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
+
+        body {
+            margin-top: 20px;
+        }
+
+        .fa-fw {
+            width: 2em;
+        }
+
+        form.fix {
+            padding: 10px 10px 10px 15px;
+            margin-bottom: 0px;
+        }
+    </style>
 </head>
 <body>
-<a href="/listPostAdmin">back to list posts</a>
-
-<h1>Post</h1>
-<table th:object="${post}" border="1px" cellspacing="5">
-    <tr>
-        <td>Title</td>
-        <td>Image</td>
-        <td>Date</td>
-        <td>User</td>
-        <td>Comment</td>
-        <td>Category</td>
-    </tr>
-    <tr>
-        <td th:text="*{title}"></td>
-        <td><img th:src="*{postImage}" alt="This is Image from Post"></td>
-        <td th:text="*{date}"></td>
-        <td th:text="*{user.fullName}"></td>
-        <td></td>
-        <td th:text="*{category.name}"></td>
-    </tr>
-</table>
-<hr>
-<hr>
-<h1>Post's Comments</h1>
-<th:block th:each="comment : ${comments}">
-    <br>
-    <table border="1" cellspacing="5">
-        <tr>
-            <td th:text="${comment.getUser().getFullName()}"></td>
-        </tr>
-        <tr>
-            <td th:text="${comment.getDate()}"></td>
-        </tr>
-        <tr>
-            <td th:text="${comment.getContent()}"></td>
-        </tr>
-        <tr>
-            <td>
-            </td>
-        </tr>
-    </table>
-
-    <a th:href="@{/user/delete-commentAdmin/__${comment.getComment_id()}__/__${post.getPost_id()}__}"> delete</a>
-<!--    <a th:href="@{/user/delete-comment/__${comment.getComment_id()}__/__${post.getPost_id()}__}"> delete</a>-->
-
-</th:block>
-
-
-<form th:action="@{/user/create-comment/__${post.post_id}__}" method="post" th:object="${comment}" >
-    <input type="text" class="form-control" id="exampleInputPassword1"
-           placeholder="comment" th:field="*{content}">
-    <input type="submit" value="comment">
-</form>
-<br>
-</th:block>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="/admin"><i class="fa fa-home fa-fw"></i>Home</a></li>
+                <li>
+                    <form class="fix" id="admin_page" method="get" action="/admin"><a href="javascript:{}"
+                                                                                      onclick="document.getElementById('admin_page').submit(); return false;">
+                        <i class="fa fa-list-alt fa-fw"></i>List User</a></form>
+                </li>
+                <li>
+                    <form class="fix" id="list_post" method="get" action="/admin/listPostAdmin"><a href="javascript:{}"
+                                                                                                   onclick="document.getElementById('list_post').submit(); return false;">
+                        <i class="fa fa-list-alt fa-fw"></i>List Post</a></form>
+                </li>
+                <li>
+                    <form class="fix" id="list_user" method="get" action="/admin/category"><a href="javascript:{}"
+                                                                                              onclick="document.getElementById('list_user').submit(); return false;">
+                        <i class="fa fa-list-alt fa-fw"></i>List Category</a></form>
+                </li>
+                <li>
+                    <form class="fix" id="logout" method="get" action="/login"><a href="javascript:{}"
+                                                                                  onclick="document.getElementById('logout').submit(); return false;">
+                        <i class="fa fa-list-alt fa-fw"></i>Log Out</a></form>
+                </li>
+                <!--                <li><a href="/categories"><i class="fa fa-pencil fa-fw"></i>Create Category</a>-->
+                <!--                </li>-->
+                <!--                <li><a href="/admin/movie?action=create"><i class="fa fa-pencil fa-fw"></i>?</a>-->
+                <!--                </li>-->
+            </ul>
+        </div>
+        <div class="col-md-9 well" th:object="${user}">
+            <h1>Post Manager</h1>
+            <fieldset>
+                <form method="post" action="/admin/deletepost" th:object="${post}">
+                    <legend>Post Information</legend>
+                    <table  cellpadding="5">
+                        <input type="hidden" th:field="*{post_id}">
+                        <tr>
+                            <th>Title:</th>
+                        </tr>
+                        <tr>
+                            <td th:text="${post.getTitle()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Category: </th>
+                        </tr>
+                        <tr>
+                            <td th:text="${post.getCategory().getName()}"></td>
+                        </tr>
+                        <tr>
+                            <th>Picture:</th>
+                        </tr>
+                        <tr>
+                            <td><img width="50%"
+                                     th:src="${post.getPostImage()}" alt="This is Image from Post"
+                                     id="output"/></td>
+                        </tr>
+                        <tr>
+                            <th><input type="submit" value="Delete Post" class="btn btn-danger"></th>
+                        </tr>
+                    </table>
+                </form>
+                <hr>
+                <th:block th:each="comment : ${comments}">
+                    <form th:action="@{/admin/delete-commentAdmin/__${comment.getComment_id()}__/__${post.getPost_id()}__}">
+                        <div style="width: 100% ;background-color: white ; padding: 20px ">
+                            <h4 th:text="${comment.getUser().getFullName()}"></h4>
+                            <input style="float: right;  border-radius: 15%; " type="submit" value="Delete Comment">
+                            <p th:text="${comment.getDate()}"></p>
+                            <p th:text="${comment.getContent()}"></p>
+                        </div>
+                    </form>
+                </th:block>
+            </fieldset>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

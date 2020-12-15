@@ -1,60 +1,83 @@
 package com.example.demo.controller;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.demo.model.Category;
 import com.example.demo.service.categoryservice.CategoryService;
+import org.cloudinary.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.jws.WebParam;
+import java.io.File;
+import java.nio.file.Files;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/categories")
+@RequestMapping("/admin/category")
 public class CategoryController {
+
+    String mCloudName = "dnulbp9wi";
+    String mApiKey = "388747591265657";
+    String mApiSecret = "QrSQljoMltB5OgDmxQM81UBSB-0";
     @Autowired
     private CategoryService categoryService;
-    @GetMapping()
-    public ModelAndView listCategory(){
+
+    @GetMapping("/admin/category")
+    public ModelAndView listCategory() {
         Iterable<Category> categories = categoryService.findAll();
         ModelAndView modelAndView = new ModelAndView("category/list");
-        modelAndView.addObject("categories" , categories);
+        modelAndView.addObject("categories", categories);
         return modelAndView;
     }
+
     @GetMapping("/create")
-    public ModelAndView createCategory(){
-        Category category = new Category();
+    public ModelAndView showCreate() {
         ModelAndView modelAndView = new ModelAndView("category/create");
-        modelAndView.addObject("category", category);
-        return modelAndView;
-    }
-    @PostMapping("/showCreate")
-    public ModelAndView showCreate(Category category){
-        category.setIcon("https://i.pinimg.com/originals/3a/69/ae/3a69ae3942d4a9da6c3cbc93b1c8f051.jpg");
-        categoryService.save(category);
-        ModelAndView modelAndView = new ModelAndView("redirect:/categories");
         modelAndView.addObject("category", new Category());
         return modelAndView;
     }
+
+
+    @PostMapping("/create")
+    public ModelAndView createCategory(@ModelAttribute("category") Category category, @ModelAttribute("iconCategoryFile") MultipartFile iconCategoryFile) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/admin/category");
+        Category category1 = categoryService.save(category);
+        category1.setIconCategoryFile(iconCategoryFile);
+        Cloudinary c = new Cloudinary("cloudinary://" + mApiKey + ":" + mApiSecret + "@" + mCloudName);
+        try {
+            File avFile = Files.createTempFile("temp", iconCategoryFile.getOriginalFilename()).toFile();
+            iconCategoryFile.transferTo(avFile);
+            Map responseAV = c.uploader().upload(avFile, ObjectUtils.emptyMap());
+            JSONObject jsonAV = new JSONObject(responseAV);
+            String urlAV = jsonAV.getString("url");
+            category1.setIcon(urlAV);
+            categoryService.save(category1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return modelAndView;
+    }
+
     @GetMapping("/edit/{id}")
-    public ModelAndView editCategory(@PathVariable Long id){
-        Optional<Category> category = categoryService.findById(id);
+    public ModelAndView showEdit(@PathVariable Long id) {
+        Category category = categoryService.findById(id).get();
         ModelAndView modelAndView = new ModelAndView("category/edit");
         modelAndView.addObject("category", category);
         return modelAndView;
     }
+
     @PostMapping("/edit/{id}")
-    public ModelAndView showEdit(Category category, RedirectAttributes redirectAttributes ){
-        redirectAttributes.addFlashAttribute("success", "edit success");
+    public ModelAndView editCategory(@ModelAttribute("category") Category category, RedirectAttributes redirectAttributes) {
+        Iterable<Category> categories = categoryService.findAll();
+        redirectAttributes.addFlashAttribute("message", "Edited Success!");
         categoryService.save(category);
-        ModelAndView modelAndView = new ModelAndView("redirect:/categories");
-        modelAndView.addObject("category", category);
+        ModelAndView modelAndView = new ModelAndView("redirect:/admin/category");
+        modelAndView.addObject("categories", categories);
         return modelAndView;
     }
 

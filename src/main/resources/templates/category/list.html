@@ -1,29 +1,92 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="category/layout :: head">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Category Management</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <style>
+        @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
+
+        body {
+            margin-top: 20px;
+        }
+
+        .fa-fw {
+            width: 2em;
+        }
+
+        form.fix {
+            padding: 10px 10px 10px 15px;
+            margin-bottom: 0px;
+        }
+    </style>
 </head>
 <body>
-<h3>Category</h3>
-<p>
-    <a href="/categories/create">Create Category</a>
-</p>
-<p th:text="${success}" style="color: blue;"></p>
-<table id="category">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Edit</th>
-        <th>Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="category : ${categories}">
-        <td th:text="${category.name}"></td>
-        <td><a th:href="@{/categories/edit/__${category.id_category}__ }">Edit</a></td>
-        <td><a th:href="@{/categories/delete/__${category.id_category}__ }">Delete</a></td>
-    </tr>
-    </tbody>
-</table>
-<footer th:replace="category/layout :: footer"></footer>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="/admin"><i class="fa fa-home fa-fw"></i>Home</a></li>
+                <li>
+                    <form class="fix" id="admin_page" method="get" action="/admin"><a href="javascript:{}"
+                                                                                      onclick="document.getElementById('admin_page').submit(); return false;">
+                        <i class="fa fa-list-alt fa-fw"></i>List User</a></form>
+                </li>
+                <li>
+                    <form class="fix" id="list_post" method="get" action="/admin/listPostAdmin"><a href="javascript:{}"
+                                                                                                   onclick="document.getElementById('list_post').submit(); return false;">
+                        <i class="fa fa-list-alt fa-fw"></i>List Post</a></form>
+                </li>
+                <li>
+                    <form class="fix" id="list_user" method="get" action="/admin/category"><a href="javascript:{}"
+                                                                                              onclick="document.getElementById('list_user').submit(); return false;">
+                        <i class="fa fa-list-alt fa-fw"></i>List Category</a></form>
+                </li>
+                <li>
+                    <form class="fix" id="logout" method="get" action="/login"><a href="javascript:{}"
+                                                                                  onclick="document.getElementById('logout').submit(); return false;">
+                        <i class="fa fa-list-alt fa-fw"></i>Log Out</a></form>
+                </li>
+                <!--                <li><a href="/categories"><i class="fa fa-pencil fa-fw"></i>Create Category</a>-->
+                <!--                </li>-->
+                <!--                <li><a href="/admin/movie?action=create"><i class="fa fa-pencil fa-fw"></i>?</a>-->
+                <!--                </li>-->
+            </ul>
+        </div>
+        <div class="col-md-9 well">
+            <th:block th:if="${message}">
+                <p style="color: green" th:text="${message}"></p>
+            </th:block>
+            <h1>Categories</h1>
+            <a href="/admin/category/create" class="btn-success">Create Category</a>
+            <p>
+            <form>
+                <input type="text" placeholder="Type something..." name="searchCategory">
+                <input type="submit" value="Search">
+            </form>
+            </p>
+            <table border="1" cellpadding="5" width="100%">
+                <tr>
+                    <th style="text-align: center">Icon</th>
+                    <th style="text-align: center">Name</th>
+                    <th style="text-align: center">Action</th>
+                </tr>
+                <th:block th:each="category : ${categories}">
+                    <tr>
+                        <td>
+                            <img style="height: 50px; width: 50px"
+                                 th:src="${category.getIcon()}"/>
+                        </td>
+                        <td th:text="${category.getName()}"></td>
+                        <td><a th:href="@{/admin/category/edit/__${category.id_category}__ }" class="btn btn-secondary">Edit</a></td>
+                    </tr>
+                </th:block>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
-</html>ml>
+</html>

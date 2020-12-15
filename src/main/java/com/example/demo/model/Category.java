@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,7 +18,18 @@ public class Category {
         this.name = name;
     }
 
+    @Transient
+    private MultipartFile iconCategoryFile;
+
     public Category() {
+    }
+
+    public MultipartFile getIconCategoryFile() {
+        return iconCategoryFile;
+    }
+
+    public void setIconCategoryFile(MultipartFile iconCategoryFile) {
+        this.iconCategoryFile = iconCategoryFile;
     }
 
     public String getIcon() {

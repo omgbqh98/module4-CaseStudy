@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.Repository.UserRepository;
 import com.example.demo.model.Category;
 import com.example.demo.model.Post;
 import com.example.demo.model.Role;
@@ -37,12 +36,17 @@ public class HomeController {
 
     @GetMapping("/block")
     public String block() {
-        return "error";
+        return "block";
     }
 
     @GetMapping("/")
     public String home() {
         return "redirect:/home/timeline";
+    }
+
+    @GetMapping("/termsOfServices")
+    public String termsOfServices() {
+        return "termsOfServices";
     }
 
     @GetMapping("/login")
@@ -134,6 +138,7 @@ public class HomeController {
         }
         // *Tác giả: Thế Phèn
         // Regíter check trùng Username và thông báo lỗi
+
         for (User userFind : userService.findAll()) {
             if (userFind.getName().equals(user.getName())) {
                 ModelAndView modelAndView = new ModelAndView("register");

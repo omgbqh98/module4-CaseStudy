@@ -1,117 +1,113 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>User Management</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="css/util.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <!--===============================================================================================-->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <style>
+        @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
+
+        body {
+            margin-top: 20px;
+        }
+
+        .fa-fw {
+            width: 2em;
+        }
+
+        form.fix {
+            padding: 10px 10px 10px 15px;
+            margin-bottom: 0px;
+        }
+    </style>
 </head>
 <body>
-<h1><a href="/listPostAdmin">list Post</a></h1>
-
-<h1><a href="/categories">category</a></h1>
-
-<form >
-    <input type="text" name="s">
-    <input type="submit" value="search">
-</form>
-
-
-<h1 style="align-content: center">Hello Admin</h1>
-</br>
-
-<div><p>so luong user: </p><h2 th:text="${countUser}"></h2></div>
-
-<table class="table">
-    <thead class="thead-dark">
-    <tr>
-        <th scope="col">Avatar</th>
-        <th scope="col">UserName</th>
-        <th scope="col">password</th>
-        <th scope="col">fullName</th>
-        <th scope="col">status</th>
-        <th scope="col">Block / Unblock User</th>
-    </tr>
-    </thead>
-    <th:block th:each="user: ${listUsers}">
-        <tbody>
-        <tr>
-            <td th:text="${user.getId()}" ></td>
-            <td> <a th:href="@{/home/timeline/viewpageAdmin/__${user.id}__}" th:text="${user.getName()}">></a> </td>
-<!--            <td th:text="${user.getAvatar()}"></td>-->
-            <td><img width="50px" th:src="${user.getAvatar()}" alt=""></td>
-
-            <td th:text="${user.getPass()}"></td>
-            <td th:text="${user.getFullName()}"></td>
-            <td th:text="${user.getStatus()}"></td>
-            <td th:text="${user.role.role_name}"></td>
-
-            <td>
-                <a th:href="@{/admin/blockUser/__${user.getId()}__}">Block</a>
-                <a th:href="@{/admin/unBlockUser/__${user.getId()}__}">Unblock</a>
-                <a th:href="@{/admin/add-roleAdmin/__${user.getId()}__}">ADD ROLE_ADMIN</a>
-            </td>
-        </tr>
-        </tbody>
-    </th:block>
-</table>
-<div>
-    <a th:href="@{'/admin'(page=${listUsers.number - 1})}" th:if="${listUsers.hasPrevious()}">Previous</a>
-    <span th:text="${listUsers.number + 1}"></span>/<span th:text="${listUsers.totalPages}"></span>
-    <a th:href="@{'/admin'(page=${listUsers.number + 1})}" th:if="${listUsers.hasNext()}">Next</a>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="/admin"><i class="fa fa-home fa-fw"></i>Home</a></li>
+                <li>
+                    <form class="fix" id="admin_page" method="get" action="/admin"><a href="javascript:{}"
+                                                                                      onclick="document.getElementById('admin_page').submit(); return false;">
+                        <i class="fa fa-list-alt fa-fw"></i>List User</a></form>
+                </li>
+                <li>
+                    <form class="fix" id="list_post" method="get" action="/admin/listPostAdmin"><a href="javascript:{}"
+                                                                                                   onclick="document.getElementById('list_post').submit(); return false;">
+                        <i class="fa fa-list-alt fa-fw"></i>List Post</a></form>
+                </li>
+                <li>
+                    <form class="fix" id="list_user" method="get" action="/admin/category"><a href="javascript:{}"
+                                                                                              onclick="document.getElementById('list_user').submit(); return false;">
+                        <i class="fa fa-list-alt fa-fw"></i>List Category</a></form>
+                </li>
+                <li>
+                    <form class="fix" id="logout" method="get" action="/login"><a href="javascript:{}"
+                                                                                  onclick="document.getElementById('logout').submit(); return false;">
+                        <i class="fa fa-list-alt fa-fw"></i>Log Out</a></form>
+                </li>
+                <!--                <li><a href="/categories"><i class="fa fa-pencil fa-fw"></i>Create Category</a>-->
+                <!--                </li>-->
+                <!--                <li><a href="/admin/movie?action=create"><i class="fa fa-pencil fa-fw"></i>?</a>-->
+                <!--                </li>-->
+            </ul>
+        </div>
+        <div class="col-md-9 well">
+            <th:block th:if="${message}">
+                <p style="color: green" th:text="${message}"></p>
+            </th:block>
+            <h1>User Manager</h1>
+            <p>
+            <form>
+                <input type="text" placeholder="Type something..." name="s">
+                <input type="submit" value="Search">
+            </form>
+            </p>
+            <p>Total: <span style="color: blue" th:text="${countUser}"></span></p>
+            <table border="1" cellpadding="5">
+                <tr>
+                    <th>User ID</th>
+                    <th>Avatar</th>
+                    <th>User Name</th>
+                    <th>Full Name</th>
+                    <th>Password</th>
+                    <th>Status</th>
+                    <th>Role</th>
+                    <th colspan="2">Action</th>
+                    <th colspan="2">Authorization</th>
+                </tr>
+                <th:block th:each="user: ${listUsers}">
+                    <tr>
+                        <td th:text="${user.getId()}"></td>
+                        <td><img width="50px" height="50px" th:src="${user.getAvatar()}" alt="User's Avatar"></td>
+                        <th><a th:href="@{/admin/viewpageadmin/__${user.id}__}"
+                               th:text="${user.getName()}">></a></th>
+                        <td th:text="${user.getFullName()}"></td>
+                        <td th:text="${user.getPass()}"></td>
+                        <td th:text="${user.getStatus()}"></td>
+                        <td th:text="${user.role.role_name}"></td>
+                        <td><a th:href="@{/admin/unBlockUser/__${user.getId()}__}" class="btn btn-warning">Unblock</a>
+                        </td>
+                        <td><a th:href="@{/admin/blockUser/__${user.getId()}__}" class="btn btn-danger">Block</a></td>
+                        <td><a th:href="@{/admin/add-roleAdmin/__${user.getId()}__}" class="btn btn-success">Admin</a>
+                        </td>
+                        <td><a th:href="@{/admin/add-roleUser/__${user.getId()}__}" class="btn btn-success">User</a>
+                        </td>
+                    </tr>
+                </th:block>
+            </table>
+            <div>
+                <a th:href="@{'/admin'(page=${listUsers.number - 1})}" th:if="${listUsers.hasPrevious()}"  class="btn btn-info">Previous</a>
+                <span th:text="${listUsers.number + 1}"></span>/<span th:text="${listUsers.totalPages}"></span>
+                <a th:href="@{'/admin'(page=${listUsers.number + 1})}" th:if="${listUsers.hasNext()}"  class="btn btn-info">Next</a>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-<p><i class="ti-power-off"></i>
-    <a href="/logout" title="">Logout</a></p>
-<!--===============================================================================================-->
-<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/bootstrap/js/popper.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-<script>
-    $('.js-pscroll').each(function(){
-        var ps = new PerfectScrollbar(this);
-
-        $(window).on('resize', function(){
-            ps.update();
-        })
-
-        $(this).on('ps-x-reach-start', function(){
-            $(this).parent().find('.table100-firstcol').removeClass('shadow-table100-firstcol');
-        });
-
-        $(this).on('ps-scroll-x', function(){
-            $(this).parent().find('.table100-firstcol').addClass('shadow-table100-firstcol');
-        });
-
-    });
-
-
-
-
-</script>
-<!--===============================================================================================-->
-<script src="js/main.js"></script>
-
 </body>
 </html>

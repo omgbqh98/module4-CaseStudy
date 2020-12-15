@@ -9,7 +9,7 @@ public class LikePost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long like_id;
 
-    Long likePost;
+
 
     @ManyToOne
     @JoinColumn(name = "post_id")
@@ -22,13 +22,8 @@ public class LikePost {
     public LikePost() {
     }
 
-    public Long getLikePost() {
-        return likePost;
-    }
 
-    public void setLikePost(Long likePost) {
-        this.likePost = likePost;
-    }
+
 
     public LikePost(Long like_id, Post post, User user) {
         this.like_id = like_id;

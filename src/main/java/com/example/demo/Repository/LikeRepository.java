@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface LikeRepository extends PagingAndSortingRepository<LikePost,Long> {
     Long countAllByPost(Post post);
 
+    Iterable<LikePost> getByPost(Post post);
+
     Long countAllBy();
 }

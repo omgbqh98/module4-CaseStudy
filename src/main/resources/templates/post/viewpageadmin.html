@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Category Management</title>
+    <title>Post Management</title>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <style>
@@ -54,48 +56,45 @@
                 <!--                </li>-->
             </ul>
         </div>
-        <div class="col-md-9 well">
-            <h1>Category Manager</h1>
-            <fieldset>
-                <form method="post" th:object="${category}">
-                    <legend>Category Information</legend>
-                    <table cellpadding="5">
-                        <input type="hidden" th:field="*{id_category}"/>
-                        <tr>
-                            <th>Name:</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="text" th:field="*{name}">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Icon:</th>
-                        </tr>
-                        <tr>
-                            <td><input type="file" accept="image/*" id="up_button" onchange="loadFile(event)" th:field="*{icon}"></td>
-                            <!--                            <td><img width="80px" height="80px" th:src="${category.getIcon()}" alt="Category Icon"></td>-->
-                        </tr>
-                        <tr>
-                            <!--                            <td><input type="text" th:field="*{icon}"></td>-->
-                            <td><img width="50%" id="output"/></td>
-                        <tr>
-                            <th><input type="submit" class="btn btn-success" value="Save"></th>
-                        </tr>
-                    </table>
-                </form>
-            </fieldset>
+        <div class="col-md-9 well" th:object="${idUser}">
+            <h1 th:text="${idUser.getName()} + ' `s Posts'" style="color: #4CAF50"></h1>
+            <p>
+            <form>
+                <input type="text" placeholder="Type something..." name="search">
+                <input type="submit" value="Search">
+            </form>
+            </p>
+            <p>Total: <span style="color: blue" th:text="${countPost}"></span></p>
+            <table width="100%" border="1" cellpadding="5">
+                <tr>
+                    <th>Title</th>
+                    <th>User Name</th>
+                    <th>Picture</th>
+                    <th>Time</th>
+                    <th>Delete</th>
+                </tr>
+                <th:block th:each="post: ${posts}">
+                    <tr>
+                        <td style="word-wrap: break-word" WIDTH="200px"><a
+                                th:href="@{/admin/viewpost-admin/__${post.getPost_id()}__}"
+                                th:text="${post.getTitle()}"></a></td>
+                        <td th:text="${post.getUser().getName()}"></td>
+                        <td style="width: 202px"><img width="200px" th:src="${post.getPostImage()}"
+                                                      alt="Post's Picture"></td>
+                        <td th:text="${post.getDate()}"></td>
+                        <td><a th:href="@{/admin/viewpost-admin/__${post.getPost_id()}__}">Delete</a></td>
+                    </tr>
+                </th:block>
+            </table>
+            <div>
+                <a th:href="@{'/admin/viewpageadmin/__${idUser.getId()}__'(page=${posts.number - 1})}"
+                   th:if="${posts.hasPrevious()}" class="btn btn-info">Previous</a>
+                <span th:text="${posts.number + 1}"></span>/<span th:text="${posts.totalPages}"></span>
+                <a th:href="@{'/admin/viewpageadmin/__${idUser.getId()}__'(page=${posts.number + 1})}"
+                   th:if="${posts.hasNext()}" class="btn btn-info">Next</a>
+            </div>
         </div>
     </div>
 </div>
 </body>
-<script>
-    var loadFile = function(event) {
-        var output = document.getElementById('output');
-        output.src = URL.createObjectURL(event.target.files[0]);
-        output.onload = function() {
-            URL.revokeObjectURL(output.src) // free memory
-        }
-    };
-</script>
 </html>

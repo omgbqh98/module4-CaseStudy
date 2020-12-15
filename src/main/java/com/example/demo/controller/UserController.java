@@ -98,30 +98,53 @@ public class UserController {
 
     @PostMapping("/like/{id}")
     public String likePost(@ModelAttribute("likePost") LikePost like, @PathVariable Long id, Model model) {
-            if (getUserCurrent()!=null) {
-                Post post = postService.findById(id).get();
-                User user = userService.findByName(getUserCurrent().getName());
-                like.setPost(post);
-                like.setUser(user);
-                likeService.save(like);
-               Long likePost= likeService.countLike(post);
-                model.addAttribute("countLike", likePost);
-            } else {
-                return "redirect:/login";
-            }
-
-        return "redirect:/home/timeline/viewpost/" + id;
+//        for (LikePost likePostFind:likeService.getByPost(like.getPost())) {
+//            if (likePostFind.getUser().getId() != getUserCurrent().getId()) {
+                if (getUserCurrent()!=null) {
+                    Post post = postService.findById(id).get();
+                    User user = userService.findByName(getUserCurrent().getName());
+                    like.setPost(post);
+                    like.setUser(user);
+                    likeService.save(like);
+                    Long likePost= likeService.countLike(post);
+                    model.addAttribute("countLike", likePost);
+                } else {
+                    return "redirect:/login";
+                }
+//            }
+//        }
+        return "redirect:/home/timeline/viewposthaslogin/" + id;
     }
 
     @PostMapping("/create-comment/{id}")
     public String createComment(@ModelAttribute("comment") Comment comment, @PathVariable Long id) {
-        Post post = postService.findById(id).get();
-        User user = userService.findByName(getUserCurrent().getName());
-        comment.setDate(LocalDateTime.now());
-        comment.setPost(post);
-        comment.setUser(user);
-        commentService.save(comment);
-        return "redirect:/home/timeline/viewpost/" + id;
+        if (getUserCurrent() != null) {
+            Post post = postService.findById(id).get();
+            User user = userService.findByName(getUserCurrent().getName());
+            comment.setDate(LocalDateTime.now());
+            comment.setPost(post);
+            comment.setUser(user);
+            commentService.save(comment);
+            return "redirect:/home/timeline/viewpost/" + id;
+        } else {
+            return "redirect:/login";
+        }
+
+    }
+    @PostMapping("/create-commentmyhome/{id}")
+    public String createCommentmyhome(@ModelAttribute("comment") Comment comment, @PathVariable Long id) {
+        if (getUserCurrent() != null) {
+            Post post = postService.findById(id).get();
+            User user = userService.findByName(getUserCurrent().getName());
+            comment.setDate(LocalDateTime.now());
+            comment.setPost(post);
+            comment.setUser(user);
+            commentService.save(comment);
+            return "redirect:/home/timeline/viewpost-myhome/" + id;
+        } else {
+            return "redirect:/login";
+        }
+
     }
 
 
