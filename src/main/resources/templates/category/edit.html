@@ -57,7 +57,7 @@
         <div class="col-md-9 well">
             <h1>Category Manager</h1>
             <fieldset>
-                <form method="post" th:object="${category}">
+                <form method="post" th:object="${category}"  enctype="multipart/form-data">
                     <legend>Category Information</legend>
                     <table cellpadding="5">
                         <input type="hidden" th:field="*{id_category}"/>
@@ -73,12 +73,12 @@
                             <th>Icon:</th>
                         </tr>
                         <tr>
-                            <td><input type="file" accept="image/*" id="up_button" onchange="loadFile(event)" th:field="*{icon}"></td>
+                            <td><input type="file" accept="image/*" id="up_button" name="iconCategoryFile" onchange="loadFile(event)"></td>
                             <!--                            <td><img width="80px" height="80px" th:src="${category.getIcon()}" alt="Category Icon"></td>-->
                         </tr>
                         <tr>
-                            <!--                            <td><input type="text" th:field="*{icon}"></td>-->
-                            <td><img width="50%" id="output"/></td>
+
+                            <td><img width="50%" id="output" th:src="${category.getIcon()}"/></td>
                         <tr>
                             <th><input type="submit" class="btn btn-success" value="Save"></th>
                         </tr>

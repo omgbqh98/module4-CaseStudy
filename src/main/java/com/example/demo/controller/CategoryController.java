@@ -71,14 +71,27 @@ public class CategoryController {
         return modelAndView;
     }
 
+
     @PostMapping("/edit/{id}")
-    public ModelAndView editCategory(@ModelAttribute("category") Category category, RedirectAttributes redirectAttributes) {
+    public ModelAndView editCategory(@ModelAttribute("category") Category category, @ModelAttribute("iconCategoryFile") MultipartFile iconCategoryFile) {
         Iterable<Category> categories = categoryService.findAll();
-        redirectAttributes.addFlashAttribute("message", "Edited Success!");
-        categoryService.save(category);
+        Category category1 = categoryService.findById(category.getId_category()).get();
+        category1.setIconCategoryFile(iconCategoryFile);
+        category1.setName(category.getName());
+        Cloudinary c = new Cloudinary("cloudinary://" + mApiKey + ":" + mApiSecret + "@" + mCloudName);
+        try {
+            File avFile = Files.createTempFile("temp", iconCategoryFile.getOriginalFilename()).toFile();
+            iconCategoryFile.transferTo(avFile);
+            Map responseAV = c.uploader().upload(avFile, ObjectUtils.emptyMap());
+            JSONObject jsonAV = new JSONObject(responseAV);
+            String urlAV = jsonAV.getString("url");
+            category1.setIcon(urlAV);
+            categoryService.save(category1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ModelAndView modelAndView = new ModelAndView("redirect:/admin/category");
         modelAndView.addObject("categories", categories);
         return modelAndView;
     }
-
 }

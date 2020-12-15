@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Category</title>
+</head>
+<body>
+<h1 th:text="${category.getName()}"></h1>
+<th:block th:each="post : ${posts}">
+    <table border="1" cellspacing="5">
+        <tr>
+            <td>Title</td>
+            <td>Full Name</td>
+            <td>Image</td>
+            <td>Date</td>
+        </tr>
+        <tr>
+            <td th:text="${post.getTitle()}"></td>
+            <td th:text="${post.getUser().getFullName()}"></td>
+            <td><img style="width: 50%" th:src="${post.getPostImage()}"></td>
+            <td th:text="${post.getDate()}"></td>
+        </tr>
+    </table>
+</th:block>
+</body>
+</html>

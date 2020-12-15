@@ -2,6 +2,7 @@ package com.example.demo.service.likeservice;
 
 import com.example.demo.model.LikePost;
 import com.example.demo.model.Post;
+import com.example.demo.model.User;
 import com.example.demo.service.GeneralService;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,8 @@ public interface LikeService extends GeneralService<LikePost> {
     Long countLike(Post post);
 
     Long countAllLike();
+
+    Long countLikeByUser_id(Long id);
 
     Iterable<LikePost> getByPost(Post post);
 }

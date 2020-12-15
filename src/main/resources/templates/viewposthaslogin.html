@@ -453,7 +453,7 @@ Hero
                             </div>
 
                         </th:block>
-                        <form th:action="@{/user/create-comment/__${post.post_id}__}" method="post" th:object="${comment}" >
+                        <form th:action="@{/user/create-commenthaslogin/__${post.post_id}__}" method="post" th:object="${comment}" >
                             <input type="text" class="form-control" id="exampleInputPassword1"
                                    placeholder="comment" th:field="*{content}">
                             <input onclick='this.form.submit()' type="submit" value="comment">

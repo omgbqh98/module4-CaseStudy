@@ -3,6 +3,7 @@ package com.example.demo.service.likeservice;
 import com.example.demo.Repository.LikeRepository;
 import com.example.demo.model.LikePost;
 import com.example.demo.model.Post;
+import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ public class LikeServiceImpl implements LikeService{
     @Autowired
     LikeRepository likeRepository;
 
+
     @Override
     public Long countLike(Post post) {
         return likeRepository.countAllByPost(post);
@@ -22,6 +24,12 @@ public class LikeServiceImpl implements LikeService{
     public Long countAllLike() {
         return likeRepository.countAllBy();
     }
+
+    @Override
+    public Long countLikeByUser_id(Long id) {
+        return likeRepository.countAllByUser_Id(id);
+    }
+
 
     @Override
     public Iterable<LikePost> getByPost(Post post) {

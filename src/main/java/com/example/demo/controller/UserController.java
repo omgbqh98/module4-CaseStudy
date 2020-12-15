@@ -47,18 +47,7 @@ public class UserController {
 //        return likeService.countLike(post);
 //    }
 
-    @GetMapping("update-fullName")
-    public ModelAndView updateFullName() {
-        ModelAndView modelAndView = new ModelAndView("user/editFullName");
-        return modelAndView;
-    }
 
-    @PostMapping ("update-fullName")
-            public ModelAndView updateFullName(User user) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/user/myhome");
-        userService.save(user);
-        return modelAndView;
-    }
 
     @GetMapping("/delete-comment/{commentId}/{postId}")
     public ModelAndView deleteComment(@PathVariable Long commentId, @PathVariable Long postId) {
@@ -98,22 +87,37 @@ public class UserController {
 
     @PostMapping("/like/{id}")
     public String likePost(@ModelAttribute("likePost") LikePost like, @PathVariable Long id, Model model) {
-//        for (LikePost likePostFind:likeService.getByPost(like.getPost())) {
-//            if (likePostFind.getUser().getId() != getUserCurrent().getId()) {
+
                 if (getUserCurrent()!=null) {
+
                     Post post = postService.findById(id).get();
                     User user = userService.findByName(getUserCurrent().getName());
+                    Optional<User> user1 = userService.findById(getUserCurrent().getId());
                     like.setPost(post);
                     like.setUser(user);
                     likeService.save(like);
-                    Long likePost= likeService.countLike(post);
+                    Long likePost= likeService.countLikeByUser_id(user1.get().getId());
                     model.addAttribute("countLike", likePost);
                 } else {
                     return "redirect:/login";
                 }
-//            }
-//        }
+
         return "redirect:/home/timeline/viewposthaslogin/" + id;
+    }
+
+    @PostMapping("/create-commenthaslogin/{id}")
+    public String createCommentHasLogin(@ModelAttribute("comment") Comment comment, @PathVariable Long id) {
+        if (getUserCurrent() != null) {
+            Post post = postService.findById(id).get();
+            User user = userService.findByName(getUserCurrent().getName());
+            comment.setDate(LocalDateTime.now());
+            comment.setPost(post);
+            comment.setUser(user);
+            commentService.save(comment);
+            return "redirect:/home/timeline/viewposthaslogin/" + id;
+        } else {
+            return "redirect:/login";
+        }
     }
 
     @PostMapping("/create-comment/{id}")
@@ -129,11 +133,10 @@ public class UserController {
         } else {
             return "redirect:/login";
         }
-
     }
+
     @PostMapping("/create-commentmyhome/{id}")
     public String createCommentmyhome(@ModelAttribute("comment") Comment comment, @PathVariable Long id) {
-        if (getUserCurrent() != null) {
             Post post = postService.findById(id).get();
             User user = userService.findByName(getUserCurrent().getName());
             comment.setDate(LocalDateTime.now());
@@ -141,10 +144,6 @@ public class UserController {
             comment.setUser(user);
             commentService.save(comment);
             return "redirect:/home/timeline/viewpost-myhome/" + id;
-        } else {
-            return "redirect:/login";
-        }
-
     }
 
 
@@ -236,15 +235,29 @@ public class UserController {
     }
 
 
+    @GetMapping("update-fullName")
+    public ModelAndView updateFullName() {
+        ModelAndView modelAndView = new ModelAndView("user/editFullName");
+        return modelAndView;
+    }
+
+    @PostMapping ("update-fullName")
+    public ModelAndView updateFullName(User user) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/user/myhome");
+        userService.save(user);
+        return modelAndView;
+    }
+
     @PostMapping("/avatar")
-    public ModelAndView uploadAvatar(@ModelAttribute("avatar") MultipartFile avatar) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/user");
-        User user = userService.getCurrentUser();
-        user.setAvatarFile(avatar);
+    public ModelAndView uploadAvatar(@ModelAttribute("user") User user1, @ModelAttribute("avatarFile") MultipartFile avatarFile) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/user/myhome");
+        User user = userService.save(user1);
+//        user.setFullName(user1.getFullName());
+        user.setAvatarFile(avatarFile);
         Cloudinary c = new Cloudinary("cloudinary://" + mApiKey + ":" + mApiSecret + "@" + mCloudName);
         try {
-            File avFile = Files.createTempFile("temp", avatar.getOriginalFilename()).toFile();
-            avatar.transferTo(avFile);
+            File avFile = Files.createTempFile("temp", avatarFile.getOriginalFilename()).toFile();
+            avatarFile.transferTo(avFile);
             Map responseAV = c.uploader().upload(avFile, ObjectUtils.emptyMap());
             JSONObject jsonAV = new JSONObject(responseAV);
             String urlAV = jsonAV.getString("url");
@@ -253,7 +266,7 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        modelAndView.addObject("user", user);
+//        modelAndView.addObject("user", user);
         return modelAndView;
     }
 
