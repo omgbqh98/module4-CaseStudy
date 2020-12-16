@@ -35,11 +35,11 @@
                                                                                       onclick="document.getElementById('admin_page').submit(); return false;">
                         <i class="fa fa-list-alt fa-fw"></i>List User</a></form>
                 </li>
-                <li>
-                    <form class="fix" id="list_post" method="get" action="/admin/listPostAdmin"><a href="javascript:{}"
-                                                                                                   onclick="document.getElementById('list_post').submit(); return false;">
-                        <i class="fa fa-list-alt fa-fw"></i>List Post</a></form>
-                </li>
+<!--                <li>-->
+<!--                    <form class="fix" id="list_post" method="get" action="/admin/listPostAdmin"><a href="javascript:{}"-->
+<!--                                                                                                   onclick="document.getElementById('list_post').submit(); return false;">-->
+<!--                        <i class="fa fa-list-alt fa-fw"></i>List Post</a></form>-->
+<!--                </li>-->
                 <li>
                     <form class="fix" id="list_user" method="get" action="/admin/category"><a href="javascript:{}"
                                                                                               onclick="document.getElementById('list_user').submit(); return false;">
@@ -77,7 +77,7 @@
                 <th:block th:each="category : ${categories}">
                     <tr>
                         <td>
-                            <img style="height: 50px; width: 50px"
+                            <img style="height: 50px; width: 50px; object-fit: cover"
                                  th:src="${category.getIcon()}"/>
                         </td>
                         <td th:text="${category.getName()}"></td>

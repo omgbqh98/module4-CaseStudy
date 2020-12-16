@@ -394,7 +394,7 @@ Hero
                 <table>
                     <th:block th:each="category : ${categories}">
                         <tr >
-                            <td><img height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"
+                            <td><img height="30px" width="30px" style="object-fit:cover;border-radius: 50%; margin-bottom: 10px"
                                      th:src="${category.getIcon()}"
                                      alt=""></td>
                             <td><a style="margin-left: 20px"
