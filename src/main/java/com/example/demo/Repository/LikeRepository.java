@@ -15,5 +15,5 @@ public interface LikeRepository extends PagingAndSortingRepository<LikePost,Long
 
     Long countAllBy();
 
-    Long countAllByUser_Id(Long id);
+    Long countAllByUser(User user);
 }

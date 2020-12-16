@@ -29,4 +29,6 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
 
     Long countAllByUserId(Long id);
 
+
+
 }

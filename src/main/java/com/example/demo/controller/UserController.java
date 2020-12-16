@@ -85,23 +85,37 @@ public class UserController {
         return modelAndView;
     }
 
+    private boolean isLiked(User user, Post post, Iterable<LikePost> likePosts) {
+        for (LikePost i: likePosts) {
+            if (user == i.getUser() && post == i.getPost()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
     @PostMapping("/like/{id}")
     public String likePost(@ModelAttribute("likePost") LikePost like, @PathVariable Long id, Model model) {
-
                 if (getUserCurrent()!=null) {
-
                     Post post = postService.findById(id).get();
                     User user = userService.findByName(getUserCurrent().getName());
                     Optional<User> user1 = userService.findById(getUserCurrent().getId());
-                    like.setPost(post);
-                    like.setUser(user);
-                    likeService.save(like);
-                    Long likePost= likeService.countLikeByUser_id(user1.get().getId());
+                    if (isLiked(user1.get(), post, likeService.findAll())) {
+                        like.setPost(post);
+                        like.setUser(user);
+                        Long lastLikes = post.getCountLike();
+                        lastLikes = lastLikes!=null?lastLikes:0;
+                        post.setCountLike(lastLikes+Long.valueOf(1));
+                        postService.save(post);
+                        likeService.save(like);
+                    }
+                    Long likePost= likeService.countLikeByUser(user1.get());
                     model.addAttribute("countLike", likePost);
                 } else {
                     return "redirect:/login";
                 }
-
         return "redirect:/home/timeline/viewposthaslogin/" + id;
     }
 

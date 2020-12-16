@@ -175,8 +175,10 @@ public class TimeLineController {
         Optional<Post> post = postService.findById(id);
         Iterable<Comment> comments = commentService.getAllByPost(post.get());
         Iterator<Comment> commentIterator = comments.iterator();
+        Long countComment = commentService.countByPostId(post.get());
         Long countLike = likeService.countLike(post.get());
         ModelAndView modelAndView = new ModelAndView("viewposthaslogin");
+        modelAndView.addObject("countComment", countComment);
         modelAndView.addObject("post", post.get());
         modelAndView.addObject("comments", commentIterator);
         modelAndView.addObject("countLike",countLike);
@@ -190,8 +192,10 @@ public class TimeLineController {
         Optional<Post> post = postService.findById(id);
         Iterable<Comment> comments = commentService.getAllByPost(post.get());
         Iterator<Comment> commentIterator = comments.iterator();
+        Long countComment = commentService.countByPostId(post.get());
         Long countLike = likeService.countLike(post.get());
         ModelAndView modelAndView = new ModelAndView("viewpost");
+        modelAndView.addObject("countComment", countComment);
         modelAndView.addObject("post", post.get());
         modelAndView.addObject("comments", commentIterator);
         modelAndView.addObject("countLike",countLike);

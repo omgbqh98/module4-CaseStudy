@@ -26,8 +26,8 @@ public class LikeServiceImpl implements LikeService{
     }
 
     @Override
-    public Long countLikeByUser_id(Long id) {
-        return likeRepository.countAllByUser_Id(id);
+    public Long countLikeByUser(User user) {
+        return likeRepository.countAllByUser(user);
     }
 
 

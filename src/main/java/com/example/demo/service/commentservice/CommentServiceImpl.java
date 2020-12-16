@@ -19,6 +19,11 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
+    public Long countByPostId(Post post) {
+        return commentRepository.countAllByPost(post);
+    }
+
+    @Override
     public Iterable<Comment> findAll() {
         return commentRepository.findAll();
     }

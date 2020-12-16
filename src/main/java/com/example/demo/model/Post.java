@@ -17,6 +17,7 @@ public class Post {
     private String postImage;
     private LocalDateTime date;
 
+    private Long countLike;
     @Transient
     private MultipartFile postImageFile;
 
@@ -35,13 +36,22 @@ public class Post {
     public Post() {
     }
 
-    public Post(String title, String postImage, LocalDateTime date, MultipartFile postImageFile, User user, List<Comment> comments) {
+    public Long getCountLike() {
+        return countLike;
+    }
+
+    public void setCountLike(Long countLike) {
+        this.countLike = countLike;
+    }
+
+    public Post(String title, String postImage, LocalDateTime date, MultipartFile postImageFile, User user, List<Comment> comments, Long countLike) {
         this.title = title;
         this.postImage = postImage;
         this.date = date;
         this.postImageFile = postImageFile;
         this.user = user;
         this.comments = comments;
+        this.countLike = countLike;
     }
 
     public Category getCategory() {

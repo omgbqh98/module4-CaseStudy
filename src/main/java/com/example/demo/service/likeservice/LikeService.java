@@ -12,7 +12,7 @@ public interface LikeService extends GeneralService<LikePost> {
 
     Long countAllLike();
 
-    Long countLikeByUser_id(Long id);
+    Long countLikeByUser(User user);
 
     Iterable<LikePost> getByPost(Post post);
 }

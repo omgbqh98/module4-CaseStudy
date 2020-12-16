@@ -6,4 +6,6 @@ import com.example.demo.service.GeneralService;
 
 public interface CommentService extends GeneralService<Comment> {
     Iterable<Comment> getAllByPost(Post post);
+
+    Long countByPostId(Post post);
 }
