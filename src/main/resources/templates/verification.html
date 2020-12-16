@@ -291,21 +291,7 @@ Hero
 <section class="hero">
     <div class="container">
         <div class="row">
-            <div style="float: left; margin-left: 3%;margin-top: 5%">
-                <h3>Category</h3>
-                <table>
-                    <th:block th:each="category : ${categories}">
-                        <tr >
-                            <td><img height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"
-                                     th:src="${category.getIcon()}"
-                                     alt=""></td>
-                            <td><a style="margin-left: 20px"
-                                   th:href="@{/home/timeline/category/__${category.getId_category()}__}"><span
-                                    th:text="${category.getName()}"></span></a></td>
-                        </tr>
-                    </th:block>
-                </table>
-            </div>
+
             <div>
                 <div class="span6"
                      style="display: block;width: 450px;margin-left: 30%;border-right: 50px; padding: 50px; border-style: solid; border: #222222; border-radius: 20% ; background: #f4f4f4">

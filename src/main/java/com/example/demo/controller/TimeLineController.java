@@ -137,6 +137,17 @@ public class TimeLineController {
         return modelAndView;
     }
 
+    @GetMapping("/viewpagehaslogin/{id}")
+    public ModelAndView viewpageHasLogin(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("viewpagehaslogin");
+        User user = userService.findById(id).get();
+        modelAndView.addObject("user",user);
+        Iterable<Post> posts = postService.getAllUserOrderByDateDesc(user);
+        modelAndView.addObject("posts", posts);
+        modelAndView.addObject("idUser", id);
+        return modelAndView;
+    }
+
     @GetMapping("/viewpage/{id}")
     public ModelAndView viewpage(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("viewpage");
@@ -232,7 +243,7 @@ public class TimeLineController {
 
     @GetMapping("/khongcoquyen")
     public String accessDenied(){
-        return "redirect:/login";
+        return "error";
     }
 
     @GetMapping("/login")

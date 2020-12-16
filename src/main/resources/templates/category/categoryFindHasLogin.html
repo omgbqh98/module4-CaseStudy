@@ -352,8 +352,8 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/home/timeline/haslogin"><img class="logo"
-                                                  src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.0-9/130207715_3570311793049359_2133162330924179758_n.jpg?_nc_cat=100&ccb=2&_nc_sid=730e14&_nc_ohc=MCLRgApyIMAAX-hKEI7&_nc_ht=scontent.fhan3-3.fna&oh=f17489e17541c981a7ca165f98087422&oe=5FF49613"
-                                                  alt=""></a>
+                                                                        src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.0-9/130207715_3570311793049359_2133162330924179758_n.jpg?_nc_cat=100&ccb=2&_nc_sid=730e14&_nc_ohc=MCLRgApyIMAAX-hKEI7&_nc_ht=scontent.fhan3-3.fna&oh=f17489e17541c981a7ca165f98087422&oe=5FF49613"
+                                                                        alt=""></a>
         </div>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav navbar-left">
@@ -363,8 +363,17 @@
                         class="sr-only">(current)</span></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="/login">Sign In <span
-                        class="sr-only">(current)</span></a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" th:text="${user.getFullName()}">
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/user/myhome">Posts</a></li>
+                        <li><a href="/user/create-post">Upload</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/user/update-fullName">Mangager Account</a></li>
+                        <li><a href="/">Log Out</a></li>
+                    </ul>
+                </li>
             </ul>
             <form   class="navbar-form navbar-right search-form" role="search" id="search_post"
             >
@@ -430,25 +439,40 @@ Hero
                                     </div>
                                 </div><!--/ media -->
                             </div><!--/ cardbox-heading -->
-                            <div class="cardbox-item"><a th:href="@{/home/timeline/viewpost/__${posts.getPost_id()}__}" ><img width="100%" height="auto" class="img-fluid" th:src="${posts.getPostImage()}" alt="">
+                            <div class="cardbox-item"><a th:href="@{/home/timeline/viewposthaslogin/__${posts.getPost_id()}__}" ><img width="100%" height="auto" class="img-fluid" th:src="${posts.getPostImage()}" alt="">
                             </a>
                             </div><!--/ cardbox-item -->
                             <div class="cardbox-base">
                                 <ul class="float-right">
-                                    <li><a th:href="@{/home/timeline/viewpost/__${posts.getPost_id()}__}"><i class="fa fa-comments"></i></a></li>
-                                    <li><a><em class="mr-5">12 Comments</em></a></li>
+                                    <li><a th:href="@{/home/timeline/viewposthaslogin/__${posts.getPost_id()}__}"><i
+                                            class="fa fa-comments"></i></a></li>
+                                    <li><a><em class="mr-5" th:text="${posts.getCountComment()}"></em></a></li>
                                 </ul>
                                 <ul>
-                                    <li><a th:href="@{/login}"><i class="fa fa-thumbs-up"></i></a></li>
-                                    <li><a><span>242 Likes</span></a></li>
+                                    <li>
+                                        <form id="form_like"
+                                              th:action="@{/user/likeFromHomePage/__${posts.getPost_id()}__}"
+                                              method="post"
+                                              th:object="${likePost}">
+                                            <a href="javascript:{}"
+                                               onclick="document.getElementById('form_like').submit(); return false;"><i
+                                                    class="fa fa-thumbs-up"></i></a>
+                                        </form>
+                                    </li>
                                 </ul>
                                 <ul>
-                                    <li><a  th:href="@{/home/timeline/category/__${category.getId_category()}__}"><i></i><img height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"
-                                                                                                                              th:src="${category.getIcon()}"
-                                                                                                                              alt=""></a></li>
+                                    <li style="padding-bottom: 3px "><span><h5
+                                            style="margin-bottom: -2px; font-style: italic; font-family: 'Times New Roman'"
+                                            th:text="${countLike}"></h5></span></li>
+                                    <li><a><em class="mr-5" th:text="${posts.countLike}"></em></a></li>
+                                </ul>
+                                <ul>
+                                    <li><a th:href="@{/home/timeline/category/__${category.getId_category()}__}"><i></i><img
+                                            height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"
+                                            th:src="${category.getIcon()}"
+                                            alt=""></a></li>
                                     <li><a><span th:text="${category.getName()}"></span></a></li>
                                 </ul>
-
                             </div><!--/ cardbox -->
                         </div><!--/ col-lg-6 -->
 

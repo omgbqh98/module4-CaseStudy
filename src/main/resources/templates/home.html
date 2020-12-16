@@ -403,10 +403,6 @@ Hero
                     </th:block>
                 </table>
 
-                <!--                    <li>-->
-                <!--                        <a style="margin-left: 20px" th:href="@{/home/timeline/category/__${category.getId_category()}__}"><span-->
-                <!--                                th:text="${category.getName()}"></span></a>-->
-                <!--                    </li>-->
 
             </div>
             <th:block th:each="posts: ${listPost}">
@@ -427,6 +423,12 @@ Hero
                                 <br>
                                 <small> <span th:text="${posts.getDate()}"></span></small>
                             </div>
+<!--                            <div class="media-body">-->
+<!--                                <a  th:href="@{/home/timeline/category/__${category.getId_category()}__}"><i></i><img height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"-->
+<!--                                                                                                                          th:src="${category.getIcon()}"-->
+<!--                                                                                                                          alt=""></a>-->
+<!--                                <a><span th:text="${category.getName()}"></span></a>-->
+<!--                            </div>-->
                         </div><!--/ media -->
                     </div><!--/ cardbox-heading -->
                     <div class="cardbox-item"><a th:href="@{/home/timeline/viewpost/__${posts.getPost_id()}__}" ><img width="100%" height="auto" class="img-fluid" th:src="${posts.getPostImage()}" alt="">
@@ -435,19 +437,18 @@ Hero
                     <div class="cardbox-base">
                         <ul class="float-right">
                             <li><a th:href="@{/home/timeline/viewpost/__${posts.getPost_id()}__}"><i class="fa fa-comments"></i></a></li>
-                            <li><a><em class="mr-5">12 Comments</em></a></li>
+                            <li><a><em class="mr-5" th:text="${posts.getCountComment()}"></em></a></li>
                         </ul>
                         <ul>
                             <li><a th:href="@{/login}"><i class="fa fa-thumbs-up"></i></a></li>
-                            <li><a><span>242 Likes</span></a></li>
+                            <li><a><em class="mr-5" th:text="${posts.countLike}"></em></a></li>
                         </ul>
                         <ul>
                             <li><a  th:href="@{/home/timeline/category/__${category.getId_category()}__}"><i></i><img height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"
-                                                                                                                                               th:src="${category.getIcon()}"
-                                                                                                                                               alt=""></a></li>
+                                                                                                                      th:src="${category.getIcon()}"
+                                                                                                                      alt=""></a></li>
                             <li><a><span th:text="${category.getName()}"></span></a></li>
                         </ul>
-
                     </div><!--/ cardbox -->
                 </div><!--/ col-lg-6 -->
 

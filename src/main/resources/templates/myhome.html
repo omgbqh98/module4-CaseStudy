@@ -336,9 +336,6 @@
 
 </head>
 <body th:object="${user}">
-
-
-
 <nav class="navbar navbar-findcond navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -367,7 +364,7 @@
                         <li><a href="/user/myhome">Posts</a></li>
                         <li><a href="/user/create-post">Upload</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Mangager Account</a></li>
+                        <li><a href="/user/update-fullName">Mangager Account</a></li>
                         <li><a href="/">Log Out</a></li>
                     </ul>
                 </li>
@@ -392,6 +389,15 @@ Hero
 <section class="hero">
     <div class="container">
         <div class="row">
+
+            <div>
+                <img style="border-radius: 50%; width: 150px;height: 150px;object-fit: cover;margin-left: 25%"
+                     th:src="${user.getAvatar()}" alt="">
+                <span style="font-size: larger" th:text="${user.getFullName()}"></span>
+            </div>
+            <br>
+            <br>
+            <br>
             <div style="float: left; margin-left: 3%;margin-top: 5%">
                 <h3>Category</h3>
                 <table>
@@ -434,19 +440,42 @@ Hero
                         <div class="cardbox-base">
                             <ul class="float-right">
                                 <li><a><i class="fa fa-comments"></i></a></li>
-                                <li><a><em class="mr-5">12</em></a></li>
+                                <li style="padding-bottom: 3px "><span><h5 style="margin-bottom: -2px; font-style: italic; font-family: 'Times New Roman'" th:text="${posts.getCountComment()}"></h5></span></li>
                             </ul>
                             <ul>
-                                <li><a><i class="fa fa-thumbs-up"></i></a></li>
-                                <li><a><span>242 Likes</span></a></li>
+                                <li>
+                                    <form id="form_like"
+                                          th:action="@{/user/likeFromMyHome/__${posts.getPost_id()}__}"
+                                          method="post"
+                                          th:object="${likePost}">
+                                        <a href="javascript:{}"
+                                           onclick="document.getElementById('form_like').submit(); return false;"><i
+                                                class="fa fa-thumbs-up"></i></a>
+                                    </form>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li style="padding-bottom: 3px "><span><h5
+                                        style="margin-bottom: -2px; font-style: italic; font-family: 'Times New Roman'"
+                                        th:text="${countLike}"></h5></span></li>
+                                <li><a><em class="mr-5" th:text="${posts.countLike}"></em></a></li>
+                            </ul>
+                            <ul>
+                                <li><a  th:href="@{/user/edit-post/__${posts.post_id}__}"><i class="fa fa-pencil"></i></a></li>
+                                <li><a><span>Edit</span></a></li>
+                            </ul>
+
+                            <ul>
+                                <li><a th:href="@{/user/delete-post/__${posts.post_id}__}"><i class="fa fa-trash"></i></a></li>
+                                <li><a><span>Delete</span></a></li>
                             </ul>
 
                         </div><!--/ cardbox -->
                     </div><!--/ col-lg-6 -->
                 </div><!--/ row -->
 
-                    <a th:href="@{/user/edit-post/__${posts.post_id}__}">Edit</a>
-                    <a th:href="@{/user/delete-post/__${posts.post_id}__}">delete</a>
+<!--                    <a th:href="@{/user/edit-post/__${posts.post_id}__}">Edit</a>-->
+<!--                    <a th:href="@{/user/delete-post/__${posts.post_id}__}">delete</a>-->
 
 
             </th:block>
@@ -454,6 +483,6 @@ Hero
     </div>
 </section>
 
-<h1><a href="/user/update-fullName">update full name</a></h1>
+
 </body>
 </html>

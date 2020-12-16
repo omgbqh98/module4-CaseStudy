@@ -419,7 +419,7 @@ Hero
                         <div class="cardbox-heading" style="padding: 0px">
                             <div class="media m-0">
                                 <div class="d-flex mr-3">
-                                    <a href="/user"><img class="img-fluid rounded-circle" style="border-radius: 50%"
+                                    <a th:href="@{/home/timeline/viewpagehaslogin/__${posts.getUser().getId()}__}"><img class="img-fluid rounded-circle" style="border-radius: 50%"
                                                     th:src="${posts.getUser().getAvatar()}"
                                                     alt="User"></a>
                                 </div>
@@ -438,20 +438,35 @@ Hero
                         </div><!--/ cardbox-item -->
                         <div class="cardbox-base">
                             <ul class="float-right">
-                                <li><a><i class="fa fa-comments"></i></a></li>
-                                <li><a><em class="mr-5">12</em></a></li>
+                                <li><a th:href="@{/home/timeline/viewposthaslogin/__${posts.getPost_id()}__}"><i
+                                        class="fa fa-comments"></i></a></li>
+                                <li><a><em class="mr-5" th:text="${posts.getCountComment()}"></em></a></li>
                             </ul>
                             <ul>
-                                <li><a><i class="fa fa-thumbs-up"></i></a></li>
-                                <li><a><span>242 Likes</span></a></li>
+                                <li>
+                                    <form id="form_like"
+                                          th:action="@{/user/likeFromHomePage/__${posts.getPost_id()}__}"
+                                          method="post"
+                                          th:object="${likePost}">
+                                        <a href="javascript:{}"
+                                           onclick="document.getElementById('form_like').submit(); return false;"><i
+                                                class="fa fa-thumbs-up"></i></a>
+                                    </form>
+                                </li>
                             </ul>
                             <ul>
-                                <li><a  th:href="@{/home/timeline/category/__${category.getId_category()}__}"><i></i><img height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"
-                                                                                                                          th:src="${category.getIcon()}"
-                                                                                                                          alt=""></a></li>
+                                <li style="padding-bottom: 3px "><span><h5
+                                        style="margin-bottom: -2px; font-style: italic; font-family: 'Times New Roman'"
+                                        th:text="${countLike}"></h5></span></li>
+                                <li><a><em class="mr-5" th:text="${posts.countLike}"></em></a></li>
+                            </ul>
+                            <ul>
+                                <li><a th:href="@{/home/timeline/category/__${category.getId_category()}__}"><i></i><img
+                                        height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"
+                                        th:src="${category.getIcon()}"
+                                        alt=""></a></li>
                                 <li><a><span th:text="${category.getName()}"></span></a></li>
                             </ul>
-
                         </div><!--/ cardbox -->
                     </div><!--/ col-lg-6 -->
                 </div><!--/ row -->

@@ -114,6 +114,10 @@ public class Post {
         return comments;
     }
 
+    public int getCountComment() {
+        return this.comments.size();
+    }
+
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }

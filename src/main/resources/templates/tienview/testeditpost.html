@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>Edit Post</h3>
+<form action="/user/edit-post" method="post" th:object="${post}">
+    <input type="hidden" th:field="*{post_id}"/>
+    <input type="hidden" th:field="*{user}">
+    <div>
+        <label>Title</label>
+        <input type="text" th:field="*{title}">
+    </div>
+    <div>
+        <!--        <lable>Full name</lable>-->
+        <!--        <input type="hidden" th:field="*{title}">-->
+        <!--        <img width="50px" th:src="${post.getUser().getAvatar()}" alt="">-->
+    </div>
+    <input hidden type="hidden" th:field="*{date}">
+    <div>
+        <label>Img</label>
+        <input hidden readonly="readonly" type="text"  th:field="*{postImage}">
+    </div>
+    <div>
+        <label>Category</label>
+
+        <!--        <input readonly type="text" th:field="*{category}">-->
+
+        <select th:field="*{category}">
+            <option th:each="p : ${categories}" th:value="${p.id_category}" th:text="${p.name}"></option>
+        </select>
+    </div>
+    <div>
+        <label></label>
+        <input type="submit" value="Edit">
+    </div>
+</form>
+
+</form>
+</body>
+</html>

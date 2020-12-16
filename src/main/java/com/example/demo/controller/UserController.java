@@ -48,6 +48,31 @@ public class UserController {
 //    }
 
 
+    @GetMapping("/changepassword")
+    public ModelAndView showChangePassword() {
+        ModelAndView modelAndView = new ModelAndView("user/changepassword");
+        modelAndView.addObject("user", new User());
+        return modelAndView;
+    }
+    @PostMapping("/changepassword")
+    public ModelAndView changePassword(@ModelAttribute("user") User user, @RequestParam String newPassword) {
+        ModelAndView modelAndView = new ModelAndView("login");
+        for (User userFind : userService.findAll()) {
+            if (user.getName().equals(userFind.getName())) {
+                if (user.getPass().equals(userFind.getPass())) {
+                    User userEdit = userService.findByName(user.getName());
+                    userEdit.setPass(newPassword);
+                    userService.save(userEdit);
+                    ModelAndView modelAndViewNew = new ModelAndView("login");
+                    modelAndViewNew.addObject("message", "Change Password Successfully!");
+                    return modelAndViewNew;
+                }
+            }
+        }
+        modelAndView.addObject("message", "Please input your username and your old password!");
+        return modelAndView;
+    }
+
 
     @GetMapping("/delete-comment/{commentId}/{postId}")
     public ModelAndView deleteComment(@PathVariable Long commentId, @PathVariable Long postId) {
@@ -94,29 +119,96 @@ public class UserController {
         return true;
     }
 
-
-
     @PostMapping("/like/{id}")
     public String likePost(@ModelAttribute("likePost") LikePost like, @PathVariable Long id, Model model) {
-                if (getUserCurrent()!=null) {
-                    Post post = postService.findById(id).get();
-                    User user = userService.findByName(getUserCurrent().getName());
-                    Optional<User> user1 = userService.findById(getUserCurrent().getId());
-                    if (isLiked(user1.get(), post, likeService.findAll())) {
-                        like.setPost(post);
-                        like.setUser(user);
-                        Long lastLikes = post.getCountLike();
-                        lastLikes = lastLikes!=null?lastLikes:0;
-                        post.setCountLike(lastLikes+Long.valueOf(1));
-                        postService.save(post);
-                        likeService.save(like);
-                    }
-                    Long likePost= likeService.countLikeByUser(user1.get());
-                    model.addAttribute("countLike", likePost);
-                } else {
-                    return "redirect:/login";
-                }
+        if (getUserCurrent()!=null) {
+            Post post = postService.findById(id).get();
+            User user = userService.findByName(getUserCurrent().getName());
+            Optional<User> user1 = userService.findById(getUserCurrent().getId());
+            if (isLiked(user1.get(), post, likeService.findAll())) {
+                like.setPost(post);
+                like.setUser(user);
+                Long lastLikes = post.getCountLike();
+                lastLikes = lastLikes!=null?lastLikes:0;
+                post.setCountLike(lastLikes+Long.valueOf(1));
+                postService.save(post);
+                likeService.save(like);
+            }
+            Long likePost= likeService.countLikeByUser(user1.get());
+            model.addAttribute("countLike", likePost);
+        } else {
+            return "redirect:/login";
+        }
         return "redirect:/home/timeline/viewposthaslogin/" + id;
+    }
+
+    @PostMapping("/likeFromMyHome/{id}")
+    public String likePostFromMyHome(@ModelAttribute("likePost") LikePost like, @PathVariable Long id, Model model) {
+        if (getUserCurrent()!=null) {
+            Post post = postService.findById(id).get();
+            User user = userService.findByName(getUserCurrent().getName());
+            Optional<User> user1 = userService.findById(getUserCurrent().getId());
+            if (isLiked(user1.get(), post, likeService.findAll())) {
+                like.setPost(post);
+                like.setUser(user);
+                Long lastLikes = post.getCountLike();
+                lastLikes = lastLikes!=null?lastLikes:0;
+                post.setCountLike(lastLikes+Long.valueOf(1));
+                postService.save(post);
+                likeService.save(like);
+            }
+            Long likePost= likeService.countLikeByUser(user1.get());
+            model.addAttribute("countLike", likePost);
+        } else {
+            return "redirect:/login";
+        }
+        return "redirect:/user/myhome/";
+    }
+
+    @PostMapping("/likeFromViewpageHasLogin/{id}")
+    public String likeFromViewpostHasLogin(@ModelAttribute("likePost") LikePost like, @PathVariable Long id, Model model) {
+        if (getUserCurrent()!=null) {
+            Post post = postService.findById(id).get();
+            User user = userService.findByName(getUserCurrent().getName());
+            Optional<User> user2 = userService.findById(getUserCurrent().getId());
+            if (isLiked(user2.get(), post, likeService.findAll())) {
+                like.setPost(post);
+                like.setUser(user);
+                Long lastLikes = post.getCountLike();
+                lastLikes = lastLikes!=null?lastLikes:0;
+                post.setCountLike(lastLikes+Long.valueOf(1));
+                postService.save(post);
+                likeService.save(like);
+            }
+            Long likePost= likeService.countLikeByUser(user2.get());
+            model.addAttribute("countLike", likePost);
+        } else {
+            return "redirect:/home/timeline/haslogin/";
+        }
+        return "redirect:/home/timeline/viewpagehaslogin/" + getUserCurrent().getId();
+    }
+
+    @PostMapping("/likeFromHomePage/{id}")
+    public String likePostFromHomePage(@ModelAttribute("likePost") LikePost like, @PathVariable Long id, Model model) {
+        if (getUserCurrent()!=null) {
+            Post post = postService.findById(id).get();
+            User user = userService.findByName(getUserCurrent().getName());
+            Optional<User> user2 = userService.findById(getUserCurrent().getId());
+            if (isLiked(user2.get(), post, likeService.findAll())) {
+                like.setPost(post);
+                like.setUser(user);
+                Long lastLikes = post.getCountLike();
+                lastLikes = lastLikes!=null?lastLikes:0;
+                post.setCountLike(lastLikes+Long.valueOf(1));
+                postService.save(post);
+                likeService.save(like);
+            }
+            Long likePost= likeService.countLikeByUser(user2.get());
+            model.addAttribute("countLike", likePost);
+        } else {
+            return "redirect:/home/timeline/haslogin/";
+        }
+        return "redirect:/home/timeline/haslogin/";
     }
 
     @PostMapping("/create-commenthaslogin/{id}")

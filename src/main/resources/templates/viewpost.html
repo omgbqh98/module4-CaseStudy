@@ -395,13 +395,12 @@ Hero
                 </table>
             </div>
             <div style="margin-left: 15%" class="col-lg-6 offset-lg-3 " th:object="${post}">
-
                 <div class="cardbox shadow-lg bg-white">
 
                     <div class="cardbox-heading" style="padding: 0px">
                         <div class="media m-0" >
                             <div class="d-flex mr-3">
-                                <a th:href="@{/home/timeline/viewpost/__${post.getPost_id()}__}"><img class="img-fluid rounded-circle" style="border-radius: 50%"
+                                <a th:href="@{/home/timeline/viewpage/__${post.getUser().getId()}__}"><img class="img-fluid rounded-circle" style="border-radius: 50%"
                                                                                                       th:src="${post.getUser().getAvatar()}"
                                                                                                       alt="User"></a>
                             </div>
@@ -420,13 +419,20 @@ Hero
                     </div><!--/ cardbox-item -->
                     <div class="cardbox-base">
                         <ul class="float-right">
-                            <li><a><i class="fa fa-comments"></i></a></li>
-                            <li style="padding-bottom: 3px "><span><h5 style="margin-bottom: -2px; font-style: italic; font-family: 'Times New Roman'" th:text="${countComment}"></h5></span></li>
-
+                            <li><a th:href="@{/home/timeline/viewpost/__${post.getPost_id()}__}"><i
+                                    class="fa fa-comments"></i></a></li>
+                            <li><a><em class="mr-5" th:text="${post.getCountComment()}"></em></a></li>
                         </ul>
                         <ul>
-                            <li><a><i class="fa fa-thumbs-up"></i></a></li>
-                            <li><a><span>242 Likes</span></a></li>
+                            <li><a th:href="@{/login}"><i class="fa fa-thumbs-up"></i></a></li>
+                            <li><a><em class="mr-5" th:text="${post.countLike}"></em></a></li>
+                        </ul>
+                        <ul>
+                            <li><a th:href="@{/home/timeline/category/__${post.getCategory().getId_category()}__}"><i></i><img
+                                    height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"
+                                    th:src="${post.getCategory().getIcon()}"
+                                    alt=""></a></li>
+                            <li><a><span th:text="${post.getCategory().getName()}"></span></a></li>
                         </ul>
 
                     </div><!--/ cardbox -->
@@ -460,10 +466,6 @@ Hero
 <script>
 
 </script>
-<div><p>so luong user: </p><h2 th:text="${countLike}"></h2></div>
-<form th:action="@{/user/like/__${post.post_id}__}" method="post" th:object="${likePost}">
-    <!--    <input type="text" class="form-control" th:field="*{likePost}">-->
-    <input type="submit" value="like">
-</form>
+
 </body>
 </html>

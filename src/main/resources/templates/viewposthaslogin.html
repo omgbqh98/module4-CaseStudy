@@ -431,7 +431,6 @@ Hero
                         <ul class="float-right">
                             <li><a><i class="fa fa-comments"></i></a></li>
                             <li style="padding-bottom: 3px "><span><h5 style="margin-bottom: -2px; font-style: italic; font-family: 'Times New Roman'" th:text="${countComment}"></h5></span></li>
-
                         </ul>
                         <ul>
                             <li><form id="form_like" th:action="@{/user/like/__${post.post_id}__}" method="post" th:object="${likePost}">
@@ -466,11 +465,6 @@ Hero
         </div><!--/ container -->
     </div>
 </section>
-
-<script>
-
-</script>
-<div><p>so luong like: </p></div>
 
 </body>
 </html>
