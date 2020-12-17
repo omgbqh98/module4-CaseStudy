@@ -357,9 +357,9 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav navbar-left">
-                <li class="active"><a style=" font-weight: bold" href="#">HOT <span class="sr-only">(current)</span></a>
+                <li class="active"><a style=" font-weight: bold" href="/home/timeline/hot">HOT <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="active"><a style=" font-weight: bold" href="#">FRESH <span
+                <li class="active"><a style=" font-weight: bold" href="/home/timeline/fresh">FRESH <span
                         class="sr-only">(current)</span></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -417,7 +417,7 @@ Hero
                                 <div class="media m-0">
                                     <div class="d-flex mr-3">
                                         <a th:href="@{/home/timeline/viewpage/__${posts.getUser().getId()}__}"><img
-                                                style="border-radius:50%" width="50px"
+                                                style="border-radius:50%;object-fit: cover" width="50px"
                                                 th:src="${posts.getUser().getAvatar()}" alt=""></a>
 
                                     </div>
@@ -427,16 +427,11 @@ Hero
                                         <br>
                                         <small> <span th:text="${posts.getDate()}"></span></small>
                                     </div>
-                                    <!--                            <div class="media-body">-->
-                                    <!--                                <a  th:href="@{/home/timeline/category/__${category.getId_category()}__}"><i></i><img height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"-->
-                                    <!--                                                                                                                          th:src="${category.getIcon()}"-->
-                                    <!--                                                                                                                          alt=""></a>-->
-                                    <!--                                <a><span th:text="${category.getName()}"></span></a>-->
-                                    <!--                            </div>-->
+
                                 </div><!--/ media -->
                             </div><!--/ cardbox-heading -->
                             <div class="cardbox-item"><a th:href="@{/home/timeline/viewpost/__${posts.getPost_id()}__}"><img
-                                    width="100%" height="auto" class="img-fluid" th:src="${posts.getPostImage()}"
+                                     width="100%" height="auto" class="img-fluid" th:src="${posts.getPostImage()}"
                                     alt="">
                             </a>
                             </div><!--/ cardbox-item -->

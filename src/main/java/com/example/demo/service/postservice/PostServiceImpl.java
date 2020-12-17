@@ -20,6 +20,12 @@ public class PostServiceImpl implements PostService{
     public Iterable<Post> findAllByCategory(Category category) {
         return postRepository.findAllByCategory(category);
     }
+
+    @Override
+    public Iterable<Post> getAllByOrderByCountLikeDesc() {
+        return postRepository.getAllByOrderByCountLikeDesc();
+    }
+
     @Override
     public Iterable<Post> getAllByOrderByDateDesc() {
         return postRepository.getAllByOrderByDateDesc();

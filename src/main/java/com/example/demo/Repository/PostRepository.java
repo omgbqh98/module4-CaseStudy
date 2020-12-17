@@ -10,10 +10,12 @@ import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
-
+    
     Iterable<Post> getAllByUserId(Long userId);
 
     Iterable<Post> getAllByOrderByDateDesc();
+
+    Iterable<Post> getAllByOrderByCountLikeDesc();
 
     Iterable<Post> getAllByUserOrderByDateDesc(User user);
 

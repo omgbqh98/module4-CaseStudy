@@ -389,21 +389,13 @@ Hero
 <section class="hero">
     <div class="container">
         <div class="row">
-
-            <div>
-                <img style="border-radius: 50%; width: 150px;height: 150px;object-fit: cover;margin-left: 25%"
-                     th:src="${user.getAvatar()}" alt="">
-                <span style="font-size: larger" th:text="${user.getFullName()}"></span>
-            </div>
-            <br>
-            <br>
-            <br>
-            <div style="float: left; margin-left: 3%;margin-top: 5%">
+            <div style="position: fixed;left: 10%;margin-top: 2%">
                 <h3>Category</h3>
-                <table>
+                <table style="margin-left: 15%">
                     <th:block th:each="category : ${categories}">
-                        <tr >
-                            <td><img height="30px" width="30px" style="object-fit:cover; border-radius: 50%; margin-bottom: 10px"
+                        <tr>
+                            <td><img height="40px" width="40px"
+                                     style="object-fit:cover;border-radius: 50%; margin-bottom: 10px"
                                      th:src="${category.getIcon()}"
                                      alt=""></td>
                             <td><a style="margin-left: 20px"
@@ -413,8 +405,25 @@ Hero
                     </th:block>
                 </table>
             </div>
+            <div class="nen" style="right: 10%;position: fixed ">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img width="150px" class="d-block w-100"
+                                 src="https://www.5banners.com/store/img/cms/00044.gif" alt="First slide"
+                                 style="; height: auto">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <img style="border-radius: 50%; width: 150px;height: 150px;object-fit: cover;margin-left: 25%"
+                     th:src="${user.getAvatar()}" alt="">
+                <span style="font-size: larger" th:text="${user.getFullName()}"></span>
+            </div>
+            <br><br>
             <th:block th:each="posts : ${myListPost}">
-                <div style="margin-left: 15%" class="col-lg-6 offset-lg-3 ">
+                <div style="margin-left: 25%" class="col-lg-6 offset-lg-3 ">
 
                     <div class="cardbox shadow-lg bg-white">
 
@@ -474,26 +483,12 @@ Hero
                     </div><!--/ col-lg-6 -->
                 </div><!--/ row -->
 
-<!--                    <a th:href="@{/user/edit-post/__${posts.post_id}__}">Edit</a>-->
-<!--                    <a th:href="@{/user/delete-post/__${posts.post_id}__}">delete</a>-->
-
-
             </th:block>
+
         </div><!--/ container -->
     </div>
 </section>
-<div class="nen" style="right: 10%;position: fixed ">
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img width="150px" class="d-block w-100"
-                     src="https://www.5banners.com/store/img/cms/00044.gif" alt="First slide"
-                     style="; height: auto">
 
-            </div>
-        </div>
-    </div>
-</div>
 
 </body>
 </html>

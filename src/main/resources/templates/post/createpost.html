@@ -358,7 +358,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" th:text="${user.getFullName()}">
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="/user/myhome">Posts</a></li>
@@ -389,12 +389,13 @@ Hero
 <section class="hero">
     <div class="container">
         <div class="row">
-            <div style="float: left; margin-left: 3%;margin-top: 5%">
+            <div style="position: fixed;left: 10%;margin-top: 2%">
                 <h3>Category</h3>
-                <table>
+                <table style="margin-left: 15%">
                     <th:block th:each="category : ${categories}">
-                        <tr >
-                            <td><img height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"
+                        <tr>
+                            <td><img height="40px" width="40px"
+                                     style="object-fit:cover;border-radius: 50%; margin-bottom: 10px"
                                      th:src="${category.getIcon()}"
                                      alt=""></td>
                             <td><a style="margin-left: 20px"
@@ -405,7 +406,7 @@ Hero
                 </table>
             </div>
 
-            <div style="margin-left: 15%; background-color: #dddddd; border-radius: 2%;padding: 30px" class="col-lg-6 offset-lg-3 " >
+            <div style="margin-left: 25%; background-color: #dddddd; border-radius: 2%;padding: 30px" class="col-lg-6 offset-lg-3 " >
                 <form method="post" action="/user/create-post" th:object="${post}" enctype="multipart/form-data">
                     <div class="control-group">
                         <label class="control-label" >Give your post a title </label>

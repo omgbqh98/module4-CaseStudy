@@ -46,12 +46,7 @@ public class TimeLineController {
         User userCurrent = userService.getCurrentUser();
         return userCurrent;
     }
-
-//    @ModelAttribute("countLike")
-//    public Long countLike() {
-//        Long like = likeService.countAllLike();
-//        return like;
-//    }
+    
 
     @GetMapping("/haslogin")
     public ModelAndView homehaslogin(@RequestParam("s") Optional<String> s , @ModelAttribute String username) {
@@ -68,6 +63,32 @@ public class TimeLineController {
 
     @GetMapping()
     public ModelAndView home(@RequestParam("s") Optional<String> s , @ModelAttribute String username) {
+        Iterable<Post> posts;
+        if (s.isPresent()) {
+            posts = postService.findByTitleContaining(s.get());
+        } else {
+            posts = postService.findAll();
+        }
+        ModelAndView modelAndView = new ModelAndView("home");
+        modelAndView.addObject("listPost", posts);
+        return modelAndView;
+    }
+
+    @GetMapping("/hot")
+    public ModelAndView homeHot(@RequestParam("s") Optional<String> s , @ModelAttribute String username) {
+        Iterable<Post> posts;
+        if (s.isPresent()) {
+            posts = postService.findByTitleContaining(s.get());
+        } else {
+            posts = postService.getAllByOrderByCountLikeDesc();
+        }
+        ModelAndView modelAndView = new ModelAndView("home");
+        modelAndView.addObject("listPost", posts);
+        return modelAndView;
+    }
+    
+    @GetMapping("/fresh")
+    public ModelAndView homeFresh(@RequestParam("s") Optional<String> s , @ModelAttribute String username) {
         Iterable<Post> posts;
         if (s.isPresent()) {
             posts = postService.findByTitleContaining(s.get());

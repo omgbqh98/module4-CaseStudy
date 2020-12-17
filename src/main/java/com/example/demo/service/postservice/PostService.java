@@ -8,10 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface PostService extends GeneralService<Post> {
+    Iterable<Post> findAll();
+    
     Iterable<Post> getAllPostByUserId(Long userId);
 
     Iterable<Post> findAllByCategory(Category category);
 
+    Iterable<Post> getAllByOrderByCountLikeDesc();
+    
     Iterable<Post> getAllByOrderByDateDesc();
 
     Iterable<Post> getAllUserOrderByDateDesc(User user);

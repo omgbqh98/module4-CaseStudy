@@ -386,13 +386,13 @@ Hero
 <section class="hero">
     <div class="container">
         <div class="row">
-            <div style="position: fixed;left: 180px; margin-left: 3%;margin-top: 5%">
-                <h1 th:text="${category.getName()}"></h1>
+            <div style="position: fixed;left: 10%;margin-top: 2%">
                 <h3>Category</h3>
-                <table>
+                <table style="margin-left: 15%">
                     <th:block th:each="category : ${categories}">
-                        <tr >
-                            <td><img height="30px" width="30px" style="border-radius: 50%; margin-bottom: 10px"
+                        <tr>
+                            <td><img height="40px" width="40px"
+                                     style="object-fit:cover;border-radius: 50%; margin-bottom: 10px"
                                      th:src="${category.getIcon()}"
                                      alt=""></td>
                             <td><a style="margin-left: 20px"
@@ -456,11 +456,11 @@ Hero
 
             </th:block>
 
-            <div class="nen" style="right: 100px;position: fixed ">
+            <div class="nen" style="right: 10%;position: fixed ">
                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img width="300px" class="d-block w-100"
+                            <img width="150px" class="d-block w-100"
                                  src="https://www.5banners.com/store/img/cms/00044.gif" alt="First slide"
                                  style="; height: auto">
 

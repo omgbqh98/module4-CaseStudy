@@ -358,7 +358,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" th:text="${user.getFullName()}">
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Posts</a></li>
@@ -389,20 +389,24 @@ Hero
 <section class="hero">
     <div class="container">
         <div class="row">
-            <div style="float: left; margin-left: 3%;margin-top: 5%">
+            <div style="position: fixed;left: 10%;margin-top: 2%">
                 <h3>Category</h3>
-                <table>
-                    <tr>
-                        <td><img height="30px" width="30px" style="border-radius: 50%"
-                                 src="https://images-na.ssl-images-amazon.com/images/I/71C7Ac1EvXL._AC_SL1000_.jpg"
-                                 alt=""></td>
-                        <td><a style="margin-left: 20px" href="">Animal</a></td>
-                        <td><br></td>
-                    </tr>
+                <table style="margin-left: 15%">
+                    <th:block th:each="category : ${categories}">
+                        <tr>
+                            <td><img height="40px" width="40px"
+                                     style="object-fit:cover;border-radius: 50%; margin-bottom: 10px"
+                                     th:src="${category.getIcon()}"
+                                     alt=""></td>
+                            <td><a style="margin-left: 20px"
+                                   th:href="@{/home/timeline/category/__${category.getId_category()}__}"><span
+                                    th:text="${category.getName()}"></span></a></td>
+                        </tr>
+                    </th:block>
                 </table>
             </div>
 
-            <div style="margin-left: 15%; background-color: #dddddd; border-radius: 2%;padding: 30px" class="col-lg-6 offset-lg-3 " >
+            <div style="margin-left: 25%; background-color: #dddddd; border-radius: 2%;padding: 30px" class="col-lg-6 offset-lg-3 " >
                 <form method="post" action="/user/edit-post"  name="Form1" th:object="${post}" enctype="multipart/form-data">
                     <input type="hidden" th:field="*{user.id}">
                     <input type="hidden" th:field="*{post_id}"/>
@@ -432,8 +436,6 @@ Hero
                     <div class="control-group">
                         <br>
                         <button class="btn btn-success"  >Change</button>
-                        <button button style="float: right" class="btn btn-success"  onclick=" OnButton2()">Change</button>
-<!--                        <a href="/user/delete-post/__{post.post_id}__"><button style="float: right" class="btn btn-success" >Delete Post</button></a>-->
                     </div>
                 </form>
             </div>
@@ -441,23 +443,6 @@ Hero
     </div>
     </div>
 </section>
-<!--<script >-->
 
-<!--    function OnButton1()-->
-<!--    {-->
-<!--        document.Form1.action = "user/edit-post"-->
-<!--        // document.Form1.target = "_blank";    // Open in a new window-->
-<!--        document.Form1.submit();             // Submit the page-->
-<!--        return true;-->
-<!--    }-->
-<!--    function OnButton2()-->
-<!--    {-->
-<!--        document.Form1.action = "user/delete-post"-->
-<!--        // document.Form1.target = "_blank";    // Open in a new window-->
-<!--        document.Form1.submit();             // Submit the page-->
-<!--        return true;-->
-<!--    }-->
-
-<!--</script>-->
 </body>
 </html>

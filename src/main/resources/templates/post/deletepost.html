@@ -2,29 +2,441 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Post</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <style>
+        nav.navbar-findcond {
+            background: #fff;
+            border-color: #ccc;
+            box-shadow: 0 0 2px 0 #ccc;
+        }
+
+        nav.navbar-findcond a {
+            color: #f14444;
+        }
+
+        nav.navbar-findcond ul.navbar-nav a {
+            color: #f14444;
+            border-style: solid;
+            border-width: 0 0 2px 0;
+            border-color: #fff;
+        }
+
+        nav.navbar-findcond ul.navbar-nav a:hover,
+        nav.navbar-findcond ul.navbar-nav a:visited,
+        nav.navbar-findcond ul.navbar-nav a:focus,
+        nav.navbar-findcond ul.navbar-nav a:active {
+            background: #fff;
+        }
+
+        nav.navbar-findcond ul.navbar-nav a:hover {
+            border-color: #f14444;
+        }
+
+        nav.navbar-findcond li.divider {
+            background: #ccc;
+        }
+
+        nav.navbar-findcond button.navbar-toggle {
+            background: #f14444;
+            border-radius: 2px;
+        }
+
+        nav.navbar-findcond button.navbar-toggle:hover {
+            background: #999;
+        }
+
+        nav.navbar-findcond button.navbar-toggle > span.icon-bar {
+            background: #fff;
+        }
+
+        nav.navbar-findcond ul.dropdown-menu {
+            border: 0;
+            background: #fff;
+            border-radius: 4px;
+            margin: 4px 0;
+            box-shadow: 0 0 4px 0 #ccc;
+        }
+
+        nav.navbar-findcond ul.dropdown-menu > li > a {
+            color: #444;
+        }
+
+        nav.navbar-findcond ul.dropdown-menu > li > a:hover {
+            background: #f14444;
+            color: #fff;
+        }
+
+        nav.navbar-findcond span.badge {
+            background: #f14444;
+            font-weight: normal;
+            font-size: 11px;
+            margin: 0 4px;
+        }
+
+        nav.navbar-findcond span.badge.new {
+            background: rgba(255, 0, 0, 0.8);
+            color: #fff;
+        }
+    </style>
+
+    <!--    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css-post">-->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        .hero {
+            padding: 6.25rem 0px !important;
+            margin: 0px !important;
+        }
+
+        .cardbox {
+            border-radius: 3px;
+            margin-bottom: 20px;
+            padding: 0px !important;
+        }
+
+        /* ------------------------------- */
+        /* Cardbox Heading
+        ---------------------------------- */
+        .cardbox .cardbox-heading {
+            padding: 16px;
+            margin: 0;
+        }
+
+        .cardbox .btn-flat.btn-flat-icon {
+            border-radius: 50%;
+            font-size: 24px;
+            height: 32px;
+            width: 32px;
+            padding: 0;
+            overflow: hidden;
+            color: #fff !important;
+            background: #b5b6b6;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .cardbox .float-right .dropdown-menu {
+            position: relative;
+            left: 13px !important;
+        }
+
+        .cardbox .float-right a:hover {
+            background: #f4f4f4 !important;
+        }
+
+        .cardbox .float-right a.dropdown-item {
+            display: block;
+            width: 100%;
+            padding: 4px 0px 4px 10px;
+            clear: both;
+            font-weight: 400;
+            font-family: 'Abhaya Libre', serif;
+            font-size: 14px !important;
+            color: #848484;
+            text-align: inherit;
+            white-space: nowrap;
+            background: 0 0;
+            border: 0;
+        }
+
+        /* ------------------------------- */
+        /* Media Section
+        ---------------------------------- */
+        .media {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: start;
+            align-items: flex-start;
+        }
+
+        .d-flex {
+            display: -ms-flexbox !important;
+            display: flex !important;
+        }
+
+        .media .mr-3 {
+            margin-right: 1rem !important;
+        }
+
+        .media img {
+            width: 48px !important;
+            height: 48px !important;
+            padding: 2px;
+            border: 2px solid #f4f4f4;
+        }
+
+        .media-body {
+            -ms-flex: 1;
+            flex: 1;
+            padding: .4rem !important;
+        }
+
+        .media-body p {
+            font-family: 'Rokkitt', serif;
+            font-weight: 500 !important;
+            font-size: 14px;
+            color: #88898a;
+        }
+
+        .media-body small span {
+            font-family: 'Rokkitt', serif;
+            font-size: 12px;
+            color: #aaa;
+            margin-right: 10px;
+        }
+
+
+        /* ------------------------------- */
+        /* Cardbox Item
+        ---------------------------------- */
+        .cardbox .cardbox-item {
+            position: relative;
+            display: block;
+        }
+
+        .cardbox .cardbox-item img {
+        }
+
+        /* ------------------------------- */
+        /* Cardbox Base
+        ---------------------------------- */
+        .cardbox-base {
+            border-bottom: 2px solid #f4f4f4;
+        }
+
+        .cardbox-base ul {
+            margin: 10px 0px 10px 15px !important;
+            padding: 10px !important;
+            font-size: 0px;
+            display: inline-block;
+        }
+
+        .cardbox-base li {
+            list-style: none;
+            margin: 0px 0px 0px -8px !important;
+            padding: 0px 0px 0px 0px !important;
+            display: inline-block;
+        }
+
+        .cardbox-base li a {
+            margin: 0px !important;
+            padding: 0px !important;
+        }
+
+        .cardbox-base li a i {
+            position: relative;
+            top: 4px;
+            font-size: 16px;
+            color: #8d8d8d;
+            margin-right: 15px;
+        }
+
+        .cardbox-base li a span {
+            font-family: 'Rokkitt', serif;
+            font-size: 14px;
+            color: #8d8d8d;
+            margin-left: 20px;
+            position: relative;
+            top: 5px;
+        }
+
+        .cardbox-base li a em {
+            font-family: 'Rokkitt', serif;
+            font-size: 14px;
+            color: #8d8d8d;
+            position: relative;
+            top: 3px;
+        }
+
+        .cardbox-base li a img {
+            width: 25px;
+            height: 25px;
+            margin: 0px !important;
+            border: 2px solid #fff;
+        }
+
+
+        /* ------------------------------- */
+        /* Cardbox Comments
+        ---------------------------------- */
+
+        .cardbox-comments .comment-avatar img {
+            margin-top: 1px;
+            margin-right: 10px;
+            position: relative;
+            display: inline-block;
+            text-align: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .search input[type="text"] {
+            background-color: #fff;
+            line-height: 10px;
+            padding: 15px 60px 20px 10px;
+            border: none;
+            border-radius: 4px;
+            width: 350px;
+            font-family: 'Rokkitt', serif;
+            font-size: 14px;
+            color: #8d8d8d;
+            height: inherit;
+            font-weight: 700;
+        }
+
+        .search button {
+            position: absolute;
+            right: 0;
+            top: 0px;
+            border: none;
+            background-color: transparent;
+            color: #bbbbbb;
+            padding: 15px 25px;
+            cursor: pointer;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .search button i {
+            font-size: 20px;
+            line-height: 30px;
+            display: block;
+        }
+
+        .author a {
+            font-family: 'Rokkitt', serif;
+            font-size: 16px;
+            color: #00C4CF;
+        }
+
+        .author p {
+            font-family: 'Rokkitt', serif;
+            font-size: 16px;
+            color: #8d8d8d;
+        }
+
+        img.logo {
+            width: 150px;
+            padding-top: 0px;
+            margin-top: -8px;
+        }
+    </style>
+
 </head>
 <body>
+<nav class="navbar navbar-findcond navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><img class="logo"
+                                                  src="https://scontent.fhan3-3.fna.fbcdn.net/v/t1.0-9/130207715_3570311793049359_2133162330924179758_n.jpg?_nc_cat=100&ccb=2&_nc_sid=730e14&_nc_ohc=MCLRgApyIMAAX-hKEI7&_nc_ht=scontent.fhan3-3.fna&oh=f17489e17541c981a7ca165f98087422&oe=5FF49613"
+                                                  alt=""></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="active"><a style=" font-weight: bold" href="#">HOT <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="active"><a style=" font-weight: bold" href="#">FRESH <span
+                        class="sr-only">(current)</span></a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" th:text="${user.getFullName()}">
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Posts</a></li>
+                        <li><a href="/user">Upload</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Manager Account</a></li>
+                        <li><a href="#exit">Log Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-right search-form" role="search" id="search_post" method="get"
+                  action="????????">
+                <input type="text" class="form-control" placeholder="Search"/>
+                <a href="javascript:{}"
+                   onclick="document.getElementById('search_post').submit(); return false;">Search<span class="sr-only">(current)</span></a>
+            </form>
+        </div>
+    </div>
+</nav>
 
-<form action="/user/delete-post" method="post" th:object="${posts}">
+<link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <input type="hidden" th:field="*{post_id}">
+<!-- ==============================================
+Hero
+=============================================== -->
 
-     <p th:text="${posts.title}" ></p>
+<section class="hero">
+    <div class="container">
+        <div class="row">
+            <div style="position: fixed;left: 10%;margin-top: 2%">
+                <h3>Category</h3>
+                <table style="margin-left: 15%">
+                    <th:block th:each="category : ${categories}">
+                        <tr>
+                            <td><img height="40px" width="40px"
+                                     style="object-fit:cover;border-radius: 50%; margin-bottom: 10px"
+                                     th:src="${category.getIcon()}"
+                                     alt=""></td>
+                            <td><a style="margin-left: 20px"
+                                   th:href="@{/home/timeline/category/__${category.getId_category()}__}"><span
+                                    th:text="${category.getName()}"></span></a></td>
+                        </tr>
+                    </th:block>
+                </table>
+            </div>
 
-    <img width="50px" th:src="${posts.getUser().getAvatar()}" alt="">
+            <div style="margin-left: 25%; background-color: #dddddd; border-radius: 2%;padding: 30px" class="col-lg-6 offset-lg-3 " >
+                <form action="/user/delete-post" method="post" th:object="${posts}" enctype="multipart/form-data">
+                    <input type="hidden" th:field="*{user.id}">
+                    <input type="hidden" th:field="*{post_id}"/>
+                    <div class="control-group">
+                        <img width="50px"  style="object-fit: cover; border-radius: 50%" th:src="${posts.getUser().getAvatar()}" alt="">
 
-<!--        &lt;!&ndash;                <ins><a th:href="@{/home/timeline/search/__${posts.getUser().getId()}__}" th:text="${posts.getUser().name}"></a></ins>&ndash;&gt;-->
-        <span th:text="${posts.getDate()}"></span>
+                        <div class="controls">
+                            <label class="control-label" >Title Of Your Post</label>
+                            <p th:text="${posts.title}" ></p>
+                        </div>
+                        <div>
+                            <input hidden type="hidden" th:field="*{date}">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <br>
+                        <img  width="100%" height="auto" class="img-fluid" th:src="${posts.getPostImage()}">
 
-        <img style="width: 50%" th:src="${posts.getPostImage()}" alt="">
+                        <input type="hidden" th:field="*{postImage}">
+                    </div>
+                    <div class="control-group">
+                        <br>
+                        <button class="btn btn-success"  >Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
 
-<!--        <p th:text="${posts.category.name}"></p>-->
-<!--        <a th:href="@{/users/delete-post/__${posts.getPost_id()}__}"><i class='fas fa-trash-alt'></i></a>-->
-
-    <input type="submit" value="delete" >
-
-
-</form>
 </body>
 </html>
